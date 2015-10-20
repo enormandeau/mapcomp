@@ -57,7 +57,7 @@ for (sp1 in levels(data[,sp1_col])) {
                 for (lg in sort(unique(d[,(sp1_col+1)]))){
                     minimum = min(d[d[,(sp1_col+1)] == lg, (sp1_col+3)])
                     maximum = max(d[d[,(sp1_col+1)] == lg, (sp1_col+3)])
-                    rect(minimum, bottom, maximum, top, col="#00000022", border=F)
+                    #rect(minimum, bottom, maximum, top, col="#00000022", border=F)
 
                     # Add LG number
                     text((maximum + minimum) / 2, 0, lg, cex=0.8)
@@ -67,10 +67,21 @@ for (sp1 in levels(data[,sp1_col])) {
                 for (lg in sort(unique(d[,(sp2_col+1)]))){
                     minimum = min(d[d[,(sp2_col+1)] == lg, (sp2_col+3)])
                     maximum = max(d[d[,(sp2_col+1)] == lg, (sp2_col+3)])
-                    rect(left, minimum, right, maximum, col="#00000022", border=F)
+                    #rect(left, minimum, right, maximum, col="#00000022", border=F)
 
                     # Add LG number
                     text(0, (maximum + minimum) / 2, lg, cex=0.8)
+                }
+
+                # Adding linkage group rectangles for species 1 on x axis
+                for (lg1 in sort(unique(d[,(sp1_col+1)]))){
+                    for (lg2 in sort(unique(d[,(sp2_col+1)]))){
+                        min.x = min(d[d[,(sp1_col+1)] == lg1, (sp1_col+3)])
+                        max.x = max(d[d[,(sp1_col+1)] == lg1, (sp1_col+3)])
+                        min.y = min(d[d[,(sp2_col+1)] == lg2, (sp2_col+3)])
+                        max.y = max(d[d[,(sp2_col+1)] == lg2, (sp2_col+3)])
+                        rect(min.x, min.y, max.x, max.y, col="#00000022", border=F)
+                    }
                 }
 
                 # Iterate through linkage group pairs
