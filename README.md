@@ -36,4 +36,3 @@ C) Pair by species and contig
  ### Creating figures 
 - Prepare data with Python script (not existing yet)
 - Create figures (need new R script)
-
