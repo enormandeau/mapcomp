@@ -35,7 +35,7 @@ if __name__ == '__main__':
             continue
 
         l = line.strip().split()
-        if l[0] in wanted_ids:
+        if l[0] in wanted_ids and int(l[4]) >= 10:
             outfile.write(line)
 
     infile.close()
