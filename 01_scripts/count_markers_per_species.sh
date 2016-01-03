@@ -16,6 +16,8 @@ cat ./species_designations.txt |
         
         echo "Number of mappings to genome: " $i
         grep -E ^"$i"_ 03_mapped/wanted_loci.sam | awk '{ print $1 }' - | uniq | wc -l
+        echo "Number of pairs between $i and Sfon"
+        grep -E "^$i\t" 03_mapped/wanted_loci.info | grep -E 'Sfon\t' | wc -l
     done
 
 
