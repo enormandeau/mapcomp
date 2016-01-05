@@ -16,6 +16,7 @@ import sys
 class Locus(object):
     """One locus of one individual and its hit information
     """
+
     def __init__(self, info):
 
         info = info.split("\t")
@@ -44,32 +45,34 @@ def find_closest_locus(self_locus, other_loci):
     """For one locus in 'self' species, find closest one in 'other' species
     In case of ties, send only the first one
     """
+
     self_position = float(self_locus.position)
     other_positions = [abs( self_position - float(x.position)) for x in other_loci]
     result = other_loci[other_positions.index(min(other_positions))]
     return result
 
-def find_min_coord(m, max_dist):
+def find_min_coord(distance_matrix, max_dist):
+    """Find coordinates of smallest distance(s) in a distance matrix
+    """
+
     coord = []
 
-    flat = [item for sublist in m for item in sublist if item >= 0]
+    flat = [item for sublist in distance_matrix for item in sublist if item >= 0]
     minimum = min([x for x in flat])
-    #print("Minimum: {}".format(minimum))
 
-    for i in range(len(m)):
-        for j in range(len(m[0])):
-            if m[i][j] == minimum:
+    for i in range(len(distance_matrix)):
+        for j in range(len(distance_matrix[0])):
+            if distance_matrix[i][j] == minimum:
                 if minimum >= max_dist:
-                    #print("Minimum is too high")
-                    cleanup_matrix(m, (i, j))
+                    cleanup_matrix(distance_matrix, (i, j))
                     return coord
 
-                row_min = min([abs(x) for x in m[i]])
-                col = [x[j] for x in m]
+                row_min = min([abs(x) for x in distance_matrix[i]])
+                col = [x[j] for x in distance_matrix]
                 col_min = min([abs(x) for x in col])
-                if m[i][j] > min([row_min, col_min]):
-                    #print("Suboptimal pair removed")
-                    cleanup_matrix(m, (i, j))
+
+                if distance_matrix[i][j] > min([row_min, col_min]):
+                    cleanup_matrix(distance_matrix, (i, j))
                     return coord
 
                 else:
@@ -77,40 +80,44 @@ def find_min_coord(m, max_dist):
 
     return coord
 
-def cleanup_matrix(m, coord):
+def cleanup_matrix(distance_matrix, coord):
+    """Remove other possible pairs for items that were paired
+    """
+
     x, y = coord
-    for i in range(len(m)):
-        for j in range(len(m[0])):
-
-            # Remove other possibilities
+    for i in range(len(distance_matrix)):
+        for j in range(len(distance_matrix[0])):
             if i == x or j == y:
-                if m[i][j] > 0:
-                    m[i][j] *= -1
+                # Remove other possibilities
+                if distance_matrix[i][j] > 0:
+                    distance_matrix[i][j] *= -1
 
-    return m
+    return distance_matrix
 
-def is_finished(m):
-    flat = [item for sublist in m for item in sublist if item >= 0]
+def is_finished(distance_matrix):
+    """Determine if all best locus pairs have been found
+    """
+
+    flat = [item for sublist in distance_matrix for item in sublist if item >= 0]
     return set(flat) == set([])
 
-def find_best_pairs(m, max_dist):
+def find_best_pairs(distance_matrix, max_dist):
+    """Find best pairs of markers
+
+    Each marker is used a maximum of one time
+    """
+
     finished = False
     good_pairs = []
 
     while not finished:
-        coord = find_min_coord(m, max_dist)
+        coord = find_min_coord(distance_matrix, max_dist)
 
         if len(coord) > 0:
-            m = cleanup_matrix(m, coord[0])
+            distance_matrix = cleanup_matrix(distance_matrix, coord[0])
             good_pairs.append(coord[0])
 
-        #for i in range(len(m)):
-        #    print(m[i])
-
-        #print("Good pairs: {}".format(good_pairs))
-        #print("")
-
-        finished = is_finished(m)
+        finished = is_finished(distance_matrix)
 
     return good_pairs
 
@@ -141,68 +148,43 @@ if __name__ == '__main__':
 
     # Go through targets and find pairs of cross species markers 
     with open(output_file, "w") as outfile:
-        count = 1
-        max_count = 1000000000
+        #count = 1
+        #max_count = 1000000000
         for target in targets:
             loci = targets[target]
 
             # Use only targets where there is more than one species
-            # find species (continue if only one species present)
             species = set([x.species for x in loci])
 
             if len(species) > 1:
                 for sp1 in species:
                     sp1_loci = [x for x in loci if x.species == sp1]
                     for sp2 in [x for x in species if x != sp1]:
-                        if sp1 != sp2:
-                            sp2_loci = [x for x in loci if x.species == sp2]
 
-                            if count > max_count:
-                                sys.exit(0)
-                            else:
-                                count += 1
+                        #if sp1 != sp2: # TODO redundant?
+                        sp2_loci = [x for x in loci if x.species == sp2]
 
-                            #print len(sp1_loci), len(sp2_loci)
-                            #print sp1_loci[0].hit_position, sp1_loci[0]
+                        #if count > max_count:
+                        #    sys.exit(0)
+                        #else:
+                        #    count += 1
 
-                            # Create distance matrix
-                            m = []
-                            for l1 in range(len(sp1_loci)):
-                                m.append([])
-                                for l2 in range(len(sp2_loci)):
-                                    abs_dist = 0.1 + abs(int(sp1_loci[l1].hit_position) -
-                                              int(sp2_loci[l2].hit_position))
+                        # Create distance matrix
+                        distance_matrix = []
+                        for l1 in range(len(sp1_loci)):
+                            distance_matrix.append([])
+                            for l2 in range(len(sp2_loci)):
+                                abs_dist = 0.1 + abs(int(sp1_loci[l1].hit_position) -
+                                          int(sp2_loci[l2].hit_position))
 
-                                    m[l1].append(abs_dist)
+                                distance_matrix[l1].append(abs_dist)
 
-                            # Find best pairs
-                            #print len(sp1_loci), len(sp2_loci)
-                            best_pairs = find_best_pairs(m, max_dist)
-                            #print "Num best pairs:", len(best_pairs)
+                        # Find best pairs
+                        best_pairs = find_best_pairs(distance_matrix, max_dist)
 
-                            for pair in best_pairs:
-                                i1, i2 = pair
-                                #print i1, len(sp1_loci) - 1
-                                #print i2, len(sp2_loci) - 1
+                        for pair in best_pairs:
+                            i1, i2 = pair
+                            l1 = sp1_loci[i1]
+                            l2 = sp2_loci[i2]
 
-                                l1 = sp1_loci[i1]
-                                l2 = sp2_loci[i2]
-
-                                outfile.write("\t".join([str(l1), str(l2)]) + "\n")
-
-                            #for l in sp1_loci:
-                            #    #for ll in sp2_loci:
-                            #    #    outfile.write(str(l) + "\t" + str(ll) + "\n")
-
-                            #    ## Write to file
-                            #    closest_locus = find_closest_locus(l, sp2_loci)
-                            #    outfile.write("\t".join([str(l), str(closest_locus)]) + "\n")
-                            #    
-                            #for l in sp2_loci:
-                            #    #for ll in sp1_loci:
-                            #    #    outfile.write(str(l) + "\t" + str(ll) + "\n")
-
-                            #    ## Write to file
-                            #    closest_locus = find_closest_locus(l, sp1_loci)
-                            #    #outfile.write("\t".join([str(l), str(closest_locus)]) + "\n")
-
+                            outfile.write("\t".join([str(l1), str(l2)]) + "\n")

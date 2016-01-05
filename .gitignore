@@ -5,7 +5,7 @@
 *.bam.*
 *.fa
 *.fa.*
-*.fasta
+*.fasta*
 *.gif
 *.hide
 *.ids
