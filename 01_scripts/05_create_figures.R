@@ -14,38 +14,24 @@ sp1_col=1
 sp2_col=8
 
 # Loop over species pairs
+cat("  Creating pairwise map comparison figures...\n")
+
 for (sp1 in levels(data.pairs[,sp1_col])) {
-    print(sp1)
+    cat(paste("    ", sp1, "\tVS\t", sep=""))
 
     for (sp2 in levels(data.pairs[,sp2_col])) {
-        print(paste("  ", sp2, sep=""))
-
-        # Number of points in quadrants with more than minimum_number_of_points
-        good = 0
-        bad = 0
-
         if (sp1 != sp2) {
+            cat(paste(sp2, " ", sep=""))
 
             # Subset data.pairs to sp1 and sp2
             # Treat only half the sp1 / sp2 pairwise comparisons when sp1 != sp2
             d = data.pairs[data.pairs[,sp1_col] == sp1 & data.pairs[,sp2_col] == sp2,]
 
-            # Move to next dataset if there is no marker pairs for these two species
-            #if (nrow(d) == 0) {
-            #    next
-            #}
-
-            # Maximum dimensions for rectangles
-            bottom = -1000
-            top = 10000
-            left = -1000
-            right = 10000
-
-            # Create new pdf figure
+            # Create new figure
             #figure_name = paste(sp1, "_", sp2, ".pdf", sep="")
             #pdf(paste(figure_folder, figure_name, sep="/"), width=12, height=12)
-            figure_name = paste(sp1, "_", sp2, ".jpg", sep="")
-            jpeg(paste(figure_folder, figure_name, sep="/"), width=1000, height=1000)
+            figure_name = paste(sp1, "_", sp2, ".png", sep="")
+            png(paste(figure_folder, figure_name, sep="/"), width=1100, height=1100)
 
                 # Create empty plot of the appropriate dimensions
                 plot(d[,(sp1_col+3)], d[,(sp2_col+3)], main=paste(sp1, "vs.", sp2),
@@ -57,45 +43,39 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
                 max.y = max(d[,(sp2_col+3)])
 
                 # Adding linkage group names for species 1 on x axis
-                for (lg in sort(unique(d[,(sp1_col+1)]))){
-                    minimum = min(d[d[,(sp1_col+1)] == lg, (sp1_col+3)])
-                    maximum = max(d[d[,(sp1_col+1)] == lg, (sp1_col+3)])
-                    #rect(minimum, bottom, maximum, top, col="#00000022", border=F)
+                sp1.lgs = data.loci[data.loci[,1] == sp1, 2]
+                sp2.lgs = data.loci[data.loci[,1] == sp2, 2]
+                sp1.data = data.loci[data.loci[,1] == sp1, ]
+                sp2.data = data.loci[data.loci[,1] == sp2, ]
 
-                    # Add LG number
-                    text((maximum + minimum) / 2, 0, lg, cex=0.8)
+                #for (lg in sort(unique(d[,(sp1_col+1)]))){
+                for (lg in sp1.lgs){
+                    minimum = sp1.data[sp1.data[,2] == lg, 3]
+                    maximum = sp1.data[sp1.data[,2] == lg, 4]
+                    text((maximum + minimum) / 2, -30, lg, cex=0.8)
                 }
 
                 # Adding linkage group names for species 2 on y axis
-                for (lg in sort(unique(d[,(sp2_col+1)]))){
-                    minimum = min(d[d[,(sp2_col+1)] == lg, (sp2_col+3)])
-                    maximum = max(d[d[,(sp2_col+1)] == lg, (sp2_col+3)])
-                    #rect(left, minimum, right, maximum, col="#00000022", border=F)
-
-                    # Add LG number
-                    text(0, (maximum + minimum) / 2, lg, cex=0.8)
+                #for (lg in sort(unique(d[,(sp2_col+1)]))){
+                for (lg in sp2.lgs){
+                    minimum = sp2.data[sp2.data[,2] == lg, 3]
+                    maximum = sp2.data[sp2.data[,2] == lg, 4]
+                    text(-30, (maximum + minimum) / 2, lg, cex=0.8)
                 }
 
                 # Adding linkage group rectangles for species 1 on x axis
-                for (lg1 in sort(unique(d[,(sp1_col+1)]))){
-                    for (lg2 in sort(unique(d[,(sp2_col+1)]))){
+                for (lg1 in sp1.lgs){
+                    for (lg2 in sp2.lgs){
 
                         # New (using all markers to have proper LG boundaries)
                         sp1.lg1.data = data.loci[data.loci[,1] == sp1 & data.loci[,2] == lg1, ]
                         sp2.lg2.data = data.loci[data.loci[,1] == sp2 & data.loci[,2] == lg2, ]
 
-                        min.x = min(sp1.lg1.data[,3])
-                        max.x = max(sp1.lg1.data[,4])
-                        min.y = min(sp2.lg2.data[,3])
-                        max.y = max(sp2.lg2.data[,4])
+                        min.x = sp1.lg1.data[,3]
+                        max.x = sp1.lg1.data[,4]
+                        min.y = sp2.lg2.data[,3]
+                        max.y = sp2.lg2.data[,4]
                         rect(min.x, min.y, max.x, max.y, col="#00000022", border=F)
-
-                        ## Old (using mapped markers only
-                        #min.x = min(d[d[,(sp1_col+1)] == lg1, (sp1_col+3)])
-                        #max.x = max(d[d[,(sp1_col+1)] == lg1, (sp1_col+3)])
-                        #min.y = min(d[d[,(sp2_col+1)] == lg2, (sp2_col+3)])
-                        #max.y = max(d[d[,(sp2_col+1)] == lg2, (sp2_col+3)])
-                        #rect(min.x, min.y, max.x, max.y, col="#00000022", border=F)
                     }
                 }
 
@@ -114,21 +94,22 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
                         # Color points black or red as a function of whether
                         # they are in a quadrant with enough data points or not
                         if (nrow(dd) >= minimum_number_of_points) {
-                            color = "#00000066"
-                            good = good + nrow(dd)
+                            #color = "#00000066"
+                            color = "black"
                         } else {
-                            color = "#ff000033"
-                            bad = bad + nrow(dd)
+                            #color = "#ff000033"
+                            color = "red"
                         }
 
                         # Adding the points
                         points(dd[,(sp1_col+3)], dd[,(sp2_col+3)], main=paste(sp1, "vs.", sp2),
                                xlab=paste(sp1, "map"),
                                ylab=paste(sp2, "map"),
-                               pch=19, col=color, cex=0.5)
+                               pch=19, col=color, cex=0.2)
                     }
                 }
             dev.off()
         }
     }
+    cat("\n")
 }

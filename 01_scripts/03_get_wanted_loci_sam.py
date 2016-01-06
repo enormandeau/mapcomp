@@ -30,6 +30,7 @@ if __name__ == '__main__':
         wanted_ids.add(line.strip())
 
     # Iterate over input_sam_file
+    print("  Filter out non-unique and bad quality alignments...")
     for line in infile:
         if line.startswith("@"):
             continue

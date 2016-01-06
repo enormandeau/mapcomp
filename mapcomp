@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# bwa index 02_raw_data/genome/genome.fasta
+
+./01_scripts/01_bwa_w_fa.sh
+./01_scripts/02_get_wanted_loci_ids.sh 03_mapped/markers.fasta.sorted.bam
+./01_scripts/03_get_wanted_loci_sam.py 03_mapped/markers.fasta.sam 03_mapped/wanted_loci.ids 03_mapped/wanted_loci.sam
+./01_scripts/04_pair_markers_by_target.py 03_mapped/wanted_loci.sam 03_mapped/wanted_loci.ids 03_mapped/wanted_loci.info 10000000
+R --slave -e 'source("01_scripts/05_create_figures.R")'

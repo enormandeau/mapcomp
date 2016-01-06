@@ -140,6 +140,7 @@ if __name__ == '__main__':
             wanted.add(line.strip())
 
     # Build dictionary of targets (keys) and a all the loci who mapped to them (values)
+    print("  Building dictionary of species and loci...")
     targets = defaultdict(list)
     with open(sam_file) as sfile:
         for line in sfile:
@@ -147,6 +148,7 @@ if __name__ == '__main__':
             targets[locus.target].append(locus)
 
     # Go through targets and find pairs of cross species markers 
+    print("  Find best pairs of markers...")
     with open(output_file, "w") as outfile:
         #count = 1
         #max_count = 1000000000

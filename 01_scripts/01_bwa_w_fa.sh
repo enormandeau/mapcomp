@@ -14,6 +14,8 @@ NUMPROCESSORS=16
 #   bwa index /path/to/genome
 # Assumes adapters have been removed from reads
 
+echo "Running MapComp"
+
 # Extract informations for figures later
 echo -e "Species\tLG\tTotalPosition" > $INPUT_FOLDER/$INPUT_FASTA.temp
 grep ">" $INPUT_FOLDER/$INPUT_FASTA |
@@ -25,25 +27,25 @@ grep ">" $INPUT_FOLDER/$INPUT_FASTA |
 rm $INPUT_FOLDER/$INPUT_FASTA.temp
 
 # Map reads using bwa mem 
-ls -1 $INPUT_FOLDER/markers.fasta |
-    sort -u |
-    while read i
-    do
-        echo $i
+input_file=$INPUT_FOLDER/$INPUT_FASTA
 
-        # Align reads
-        bwa mem -t $NUMPROCESSORS $REFERENCEGENOME $i > $i.sam
+# Align reads
+echo "  Aligning reads to genome..."
+bwa mem -t $NUMPROCESSORS $REFERENCEGENOME $input_file > $input_file.sam 2> /dev/null
 
-        # keep only mapped reads (-F 4)
-        samtools view -Sb -F 4 $i.sam > $i.mapped_only.bam
+# keep only mapped reads (-F 4)
+echo "  Filering non-mapped reads..."
+samtools view -Sb -F 4 $input_file.sam > $input_file.mapped_only.bam
 
-        # Sort reads
-        samtools sort $i.mapped_only.bam $i.sorted
+# Sort reads
+echo "  Sorting bam file..."
+samtools sort $input_file.mapped_only.bam $input_file.sorted
 
-        # Index bam file
-        samtools index $i.sorted.bam
-    done
+# Index bam file
+echo "  Indexing bam file..."
+#samtools index $input_file.sorted.bam
 
 # clean temporary files
-rm ./$INPUT_FOLDER/*.mapped_only.bam
-mv ./$INPUT_FOLDER/*.sam ./$INPUT_FOLDER/*.sorted.bam ./$INPUT_FOLDER/*.sorted.bam.bai ./$MAPPED_FOLDER/
+rm $input_file.mapped_only.bam
+mv ./$INPUT_FOLDER/*.sam ./$INPUT_FOLDER/*.sorted.bam ./$MAPPED_FOLDER/
+# mv ./$INPUT_FOLDER/*.sorted.bam.bai ./$MAPPED_FOLDER

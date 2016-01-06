@@ -9,6 +9,7 @@ BAMFILE=$1
 DIRECTORY=$(dirname $1)
 
 # Filter bam file
+echo "  Filtering non-unique or bad quality alignments..."
 samtools view $BAMFILE | \
     awk '$5 >= 10 {print $1}' | \
     sort | \
