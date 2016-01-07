@@ -20,6 +20,7 @@ The main steps in using MapComp are:
 - Map marker sequences on genome scaffolds
 - Filter out non-unique and bad quality alignments
 - Keep only the best marker pairs
+- Create figures
 
 # Tutorial
 # TODO

@@ -2,11 +2,11 @@
 # use bwa mem to map map loci in fasta format against reference genome
 
 # global variables (note: point to REFERENCEGENOME)
-INPUT_FOLDER="02_raw_data"
 INPUT_FASTA="markers.fasta"
-MAPPED_FOLDER="03_mapped"
 REFERENCEGENOME="02_raw_data/genome/genome.fasta"
 NUMPROCESSORS=16
+INPUT_FOLDER="02_raw_data"
+MAPPED_FOLDER="03_mapped"
 
 # Notes:
 # Assumes reference is already indexed
@@ -48,4 +48,3 @@ echo "  Indexing bam file..."
 # clean temporary files
 rm $input_file.mapped_only.bam
 mv ./$INPUT_FOLDER/*.sam ./$INPUT_FOLDER/*.sorted.bam ./$MAPPED_FOLDER/
-# mv ./$INPUT_FOLDER/*.sorted.bam.bai ./$MAPPED_FOLDER

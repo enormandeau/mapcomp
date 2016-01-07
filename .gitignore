@@ -17,6 +17,7 @@
 *.png
 *.sam
 *.sam.*
+*.swp
 *.xls
 *.xlsx
 *~
