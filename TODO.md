@@ -2,6 +2,8 @@
 
 - Use a config file and simply run ./mapcomp
 
+- Revise bash scripts with [Defensive Bash Programming](http://www.kfirlavi.com/blog/2012/11/14/defensive-bash-programming)
+
 - Include reciprocal best hits?
 
 - Build a tutorial
