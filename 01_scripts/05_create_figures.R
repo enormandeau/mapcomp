@@ -8,7 +8,7 @@ data.pairs = read.table("03_mapped/wanted_loci.info")
 data.loci = read.table("02_raw_data/markers.fasta.info")
 
 # Global variables
-minimum_number_of_points = 5 # Minimum number hits between 2 LGs to display them in dark
+minimum_number_of_points = 5 # Minimum number hits between 2 LGs to display in dark
 figure_folder = "04_figures"
 sp1_col=1
 sp2_col=8
@@ -28,13 +28,14 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
             d = data.pairs[data.pairs[,sp1_col] == sp1 & data.pairs[,sp2_col] == sp2,]
 
             # Create new figure
-            #figure_name = paste(sp1, "_", sp2, ".pdf", sep="")
+            #figure_name = paste(sp2, "_", sp1, ".pdf", sep="")
             #pdf(paste(figure_folder, figure_name, sep="/"), width=12, height=12)
-            figure_name = paste(sp1, "_", sp2, ".png", sep="")
+            figure_name = paste(sp2, "_", sp1, ".png", sep="")
             png(paste(figure_folder, figure_name, sep="/"), width=1100, height=1100)
 
                 # Create empty plot of the appropriate dimensions
-                plot(d[,(sp1_col+3)], d[,(sp2_col+3)], main=paste(sp1, "vs.", sp2),
+                plot(d[,(sp1_col+3)], d[,(sp2_col+3)],
+                     main=paste("Map comparison for species", sp2, "and", sp1),
                      xlab=paste(sp1, "map"),
                      ylab=paste(sp2, "map"),
                      pch=19, col="#00000088", cex=0.5, type="n")
@@ -86,7 +87,7 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
                         # Subset data for that linkage group pair
                         dd = d[d[,(sp1_col+1)] == lg1 & d[,(sp2_col+1)] == lg2, ]
 
-                        # Move to next dataset if there is no marker pairs for this LG pair
+                        # Skip if there are no markers for this LG pair
                         if (nrow(dd) == 0) {
                             next
                         }
@@ -94,18 +95,16 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
                         # Color points black or red as a function of whether
                         # they are in a quadrant with enough data points or not
                         if (nrow(dd) >= minimum_number_of_points) {
-                            #color = "#00000066"
                             color = "black"
                         } else {
-                            #color = "#ff000033"
                             color = "red"
                         }
 
                         # Adding the points
-                        points(dd[,(sp1_col+3)], dd[,(sp2_col+3)], main=paste(sp1, "vs.", sp2),
+                        points(dd[,(sp1_col+3)], dd[,(sp2_col+3)],
                                xlab=paste(sp1, "map"),
                                ylab=paste(sp2, "map"),
-                               pch=19, col=color, cex=0.2)
+                               pch=19, col=color, cex=0.1)
                     }
                 }
             dev.off()
