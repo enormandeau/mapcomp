@@ -1,13 +1,11 @@
 # Map Comp TODO
 
-- Harden bash scripts (Defensive bash programming)
+- Revise bash scripts with [Defensive Bash Programming](http://www.kfirlavi.com/blog/2012/11/14/defensive-bash-programming)
 
 - Creating the fasta file
   - Create CSV file
   - Compute total positions
   - Create the fasta file
-
-- Use a config file and simply run ./mapcomp
 
 - Build a tutorial
   - Provide genome
