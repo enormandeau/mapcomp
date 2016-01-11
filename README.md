@@ -88,6 +88,11 @@ R -q -e 'source("01_scripts/05_create_figures.R")'
 
 # Citing
 # TODO
+If you use MapComp in your research, please cite:
+
+Sutherland et al. 2016...
 
 # License
-# TODO
+
+MapComp is licensed under the GNU General Public Licence version 3 (GPL3). See
+the LICENCE file for more details.
