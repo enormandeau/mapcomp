@@ -28,7 +28,7 @@ with open(input_file) as ifile:
             continue
 
         species, lg, total_position = line.strip().split()
-        lg = int(lg)
+        lg = float(lg)
         total_position = float(total_position)
 
         if lg not in minimums[species] or minimums[species][lg] > total_position:
