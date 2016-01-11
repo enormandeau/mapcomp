@@ -1,8 +1,13 @@
 # Map Comp TODO
 
-- Use a config file and simply run ./mapcomp
+- Harden bash scripts (Defensive bash programming)
 
-- Include reciprocal best hits?
+- Creating the fasta file
+  - Create CSV file
+  - Compute total positions
+  - Create the fasta file
+
+- Use a config file and simply run ./mapcomp
 
 - Build a tutorial
   - Provide genome
@@ -12,17 +17,16 @@
     - Create fasta file
     - Run pipeline
 
-- Improve README.md
-  - Add Citing info
-  - Add Licence
+## When paper accepted
+
+- Add Citing info to README.md
+
+## Maybe
+
+- Include reciprocal best hits
 
 - TotPos
-  - Correct LGs that do not start at 0 (actually useful?)
+  - Correct LGs that do not start at 0 (actually useful)
 
-- Creating the fasta file
-  - Create CSV file
-  - Compute total positions
-  - Create the fasta file
-
-- Re-order LGs?
-- Compute metrics?
+- Re-order LGs
+- Compute metrics
