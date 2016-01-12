@@ -2,19 +2,18 @@
 # use bwa mem to map map loci in fasta format against reference genome
 
 # global variables (note: point to REFERENCE_GENOME)
-INPUT_FASTA="02_raw_data/markers.fasta"
-REFERENCE_GENOME="02_raw_data/genome/genome.fasta"
-INPUT_FOLDER="02_raw_data"
-MAPPED_FOLDER="03_mapped"
-NUMPROCESSORS=16
+readonly INPUT_FASTA="02_raw_data/markers.fasta"
+readonly REFERENCE_GENOME="02_raw_data/genome/genome.fasta"
+readonly INPUT_FOLDER="02_raw_data"
+readonly MAPPED_FOLDER="03_mapped"
+readonly NUMPROCESSORS=16
+readonly PROGNAME=$0
 
 # Notes:
+# Assumes adapters have been removed from reads
 # Assumes reference is already indexed
 # Otherwise, index it with:
 #   bwa index /path/to/genome
-# Assumes adapters have been removed from reads
-
-echo "Running MapComp"
 
 # Extract informations for figures later
 echo -e "Species\tLG\tTotalPosition" > ${INPUT_FASTA}.temp

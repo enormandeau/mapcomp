@@ -5,8 +5,8 @@
 # ./01_scripts/get_wanted_loci_ids.sh bamfile
 
 # Global variables
-BAMFILE="$1"
-DIRECTORY="$(dirname $1)"
+readonly BAMFILE="$1"
+readonly DIRECTORY="$(dirname $1)"
 
 # Filter bam file
 echo "  Filtering non-unique or bad quality alignments..."

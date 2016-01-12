@@ -1,22 +1,23 @@
-# Map Comparison
+# MapComp
 
-Genetic Map Comparison Pipeline
+A Genetic Map Comparison Pipeline
 
 # Introduction
 
-MapComp was developed as a tool to facilitate the visual comparison among maps
-of similar taxons in order to assess their quality make exploring the genetic
-evolution of these taxons simpler. The novelty of the approach lies in the use
-of a reference genome to maximize the number of marker pairs that can be
-compared among maps. As such, it requires the existence of a genetic map for a
-species that is phylogenetically close to the species of the maps that are
-being compared.
+MapComp facilitates the visual comparison among maps of similar taxons in order
+to assess their quality and makes exploring the genetic evolution of these
+taxons simpler. The novelty of the approach lies in the use of a reference
+genome to maximize the number of marker pairs that can be compared among maps,
+even when completely different library preparation protocols have been used to
+create the map markers. As such, it requires the existence of an assembled
+genome for a species that is phylogenetically close to the species with the
+maps that are being compared.
 
 # Using MapComp
 
 The main steps in using MapComp are:
 
-- Get and preparing markers data from different taxons
+- Get and prepare markers data of different taxons
 - Map marker sequences on genome scaffolds
 - Filter out non-unique and bad quality alignments
 - Keep only the best marker pairs
@@ -30,8 +31,10 @@ The main steps in using MapComp are:
 Note: Importance of respecting the EXACT format
 
 - Collect data
+- Download reference genome
 - Create marker fasta file
-- Copy genome in 02_raw_data
+- Genome -> `./02_raw_data/genome/genome.fasta`
+- Markers -> `./02_raw_data/markers.fasta`
 
 ## Collecting the data
 # TODO
