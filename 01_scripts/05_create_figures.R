@@ -16,6 +16,8 @@ sp2_col=8
 # Loop over species pairs
 cat("  Creating pairwise map comparison figures...\n")
 
+lg.correspondance = NULL
+
 for (sp1 in levels(data.pairs[,sp1_col])) {
     cat(paste("    ", sp1, "\tVS\t", sep=""))
 
@@ -24,91 +26,101 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
             cat(paste(sp2, " ", sep=""))
 
             # Subset data.pairs to sp1 and sp2
-            # Treat only half the sp1 / sp2 pairwise comparisons when sp1 != sp2
-            d = data.pairs[data.pairs[,sp1_col] == sp1 & data.pairs[,sp2_col] == sp2,]
+            data.sp = data.pairs[data.pairs[,sp1_col] == sp1 & data.pairs[,sp2_col] == sp2,]
 
-            # Create new figure
+            # PDF output
             #figure_name = paste(sp2, "_", sp1, ".pdf", sep="")
             #pdf(paste(figure_folder, figure_name, sep="/"), width=12, height=12)
+
+            # png output
             figure_name = paste(sp2, "_", sp1, ".png", sep="")
             png(paste(figure_folder, figure_name, sep="/"), width=1100, height=1100)
 
-                # Create empty plot of the appropriate dimensions
-                plot(d[,(sp1_col+3)], d[,(sp2_col+3)],
-                     main=paste("Map comparison for species", sp2, "and", sp1),
-                     xlab=paste(sp1, "map"),
-                     ylab=paste(sp2, "map"),
-                     pch=19, col="#00000088", cex=0.5, type="n")
+            # Create empty figure of the appropriate dimensions
+            plot(data.sp[,(sp1_col+3)], data.sp[,(sp2_col+3)],
+                 main=paste("Map comparison for species", sp2, "and", sp1),
+                 xlab=paste(sp1, "map (distances in hundreds of CM)"),
+                 ylab=paste(sp2, "map (distances in hundreds of CM)"),
+                 pch=19,
+                 col="#00000088",
+                 cex=0.5,
+                 type="n",
+                 bty="n",
+                 xaxt="n",
+                 yaxt="n")
 
-                max.x = max(d[,(sp1_col+3)])
-                max.y = max(d[,(sp2_col+3)])
+            # Prepare data minimum and maximum positions
+            sp1.lgs = data.loci[data.loci[,1] == sp1, 2]
+            sp2.lgs = data.loci[data.loci[,1] == sp2, 2]
+            sp1.data = data.loci[data.loci[,1] == sp1, ]
+            sp2.data = data.loci[data.loci[,1] == sp2, ]
 
-                # Adding linkage group names for species 1 on x axis
-                sp1.lgs = data.loci[data.loci[,1] == sp1, 2]
-                sp2.lgs = data.loci[data.loci[,1] == sp2, 2]
-                sp1.data = data.loci[data.loci[,1] == sp1, ]
-                sp2.data = data.loci[data.loci[,1] == sp2, ]
+            # Creating the axes
+            axis.increment = 200 # in CM
 
-                #for (lg in sort(unique(d[,(sp1_col+1)]))){
-                for (lg in sp1.lgs){
-                    minimum = sp1.data[sp1.data[,2] == lg, 3]
-                    maximum = sp1.data[sp1.data[,2] == lg, 4]
-                    text((maximum + minimum) / 2, -30, lg, cex=0.8)
-                }
+            # X axis
+            maximum.axis.position.x = max(sp1.data[, 4])
+            axis.positions.x = seq(0, maximum.axis.position.x, by=axis.increment)
+            axis.text.x = as.integer(axis.positions.x / 100)
+            axis(1, at=axis.positions.x, labels=axis.text.x, las=1, cex.axis=0.8)
 
-                # Adding linkage group names for species 2 on y axis
-                #for (lg in sort(unique(d[,(sp2_col+1)]))){
-                for (lg in sp2.lgs){
-                    minimum = sp2.data[sp2.data[,2] == lg, 3]
-                    maximum = sp2.data[sp2.data[,2] == lg, 4]
-                    text(-30, (maximum + minimum) / 2, lg, cex=0.8)
-                }
+            # Y axis
+            maximum.axis.position.y = max(sp2.data[, 4])
+            axis.positions.y = seq(0, maximum.axis.position.y, by=axis.increment)
+            axis.text.y = as.integer(axis.positions.y / 100)
+            axis(2, at=axis.positions.y, labels=axis.text.y, las=1, cex.axis=0.8)
 
-                # Adding linkage group rectangles for species 1 on x axis
-                for (lg1 in sp1.lgs){
-                    for (lg2 in sp2.lgs){
+            # Adding linkage group names for species 1 on x axis
+            for (lg in sp1.lgs){
+                minimum = sp1.data[sp1.data[,2] == lg, 3]
+                maximum = sp1.data[sp1.data[,2] == lg, 4]
+                text((maximum + minimum) / 2, -30, lg, cex=0.8)
+            }
 
-                        # New (using all markers to have proper LG boundaries)
-                        sp1.lg1.data = data.loci[data.loci[,1] == sp1 & data.loci[,2] == lg1, ]
-                        sp2.lg2.data = data.loci[data.loci[,1] == sp2 & data.loci[,2] == lg2, ]
+            # Adding linkage group names for species 2 on y axis
+            for (lg in sp2.lgs){
+                minimum = sp2.data[sp2.data[,2] == lg, 3]
+                maximum = sp2.data[sp2.data[,2] == lg, 4]
+                text(-30, (maximum + minimum) / 2, lg, cex=0.8)
+            }
 
-                        min.x = sp1.lg1.data[,3]
-                        max.x = sp1.lg1.data[,4]
-                        min.y = sp2.lg2.data[,3]
-                        max.y = sp2.lg2.data[,4]
+            # Iterate through linkage group pairs
+            for (lg1 in sp1.lgs){
+                for (lg2 in sp2.lgs){
+
+                    # New (using all markers to have proper LG boundaries)
+                    sp1.lg1.data = data.loci[data.loci[,1] == sp1 & data.loci[,2] == lg1, ]
+                    sp2.lg2.data = data.loci[data.loci[,1] == sp2 & data.loci[,2] == lg2, ]
+
+                    min.x = sp1.lg1.data[,3]
+                    max.x = sp1.lg1.data[,4]
+                    min.y = sp2.lg2.data[,3]
+                    max.y = sp2.lg2.data[,4]
+
+                    # Subset data for that linkage group pair
+                    dd = data.sp[data.sp[,(sp1_col+1)] == lg1 & data.sp[,(sp2_col+1)] == lg2, ]
+
+                    color = "black"
+                    # Color quadrants lighter or darker grey depending on weather
+                    # they are in a quadrant with enough data points or not
+                    if (nrow(dd) >= minimum_number_of_points) {
                         rect(min.x, min.y, max.x, max.y, col="#00000022", border=F)
+                        lg.correspondance = rbind(lg.correspondance, c(sp1, lg1, sp2, lg2))
+                    } else {
+                        rect(min.x, min.y, max.x, max.y, col="#00000016", border=F)
                     }
+
+                    # Adding the points
+                    points(dd[,(sp1_col+3)], dd[,(sp2_col+3)],
+                           xlab=paste(sp1, "map"),
+                           ylab=paste(sp2, "map"),
+                           pch=19, col=color, cex=0.1)
                 }
-
-                # Iterate through linkage group pairs
-                for (lg1 in sort(unique(d[,(sp1_col+1)]))) {
-                    for (lg2 in sort(unique(d[,(sp2_col+1)]))) {
-
-                        # Subset data for that linkage group pair
-                        dd = d[d[,(sp1_col+1)] == lg1 & d[,(sp2_col+1)] == lg2, ]
-
-                        # Skip if there are no markers for this LG pair
-                        if (nrow(dd) == 0) {
-                            next
-                        }
-
-                        # Color points black or red as a function of whether
-                        # they are in a quadrant with enough data points or not
-                        if (nrow(dd) >= minimum_number_of_points) {
-                            color = "black"
-                        } else {
-                            color = "red"
-                        }
-
-                        # Adding the points
-                        points(dd[,(sp1_col+3)], dd[,(sp2_col+3)],
-                               xlab=paste(sp1, "map"),
-                               ylab=paste(sp2, "map"),
-                               pch=19, col=color, cex=0.1)
-                    }
-                }
+            }
             dev.off()
         }
     }
     cat("\n")
 }
+
+write.table(lg.correspondance, "linkage_group_correspondance.csv", sep="\t", row.names=F, col.names=F, quote=F)
