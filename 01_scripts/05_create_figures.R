@@ -34,7 +34,7 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
 
             # png output
             figure_name = paste(sp2, "_", sp1, ".png", sep="")
-            png(paste(figure_folder, figure_name, sep="/"), width=1100, height=1100)
+            png(paste(figure_folder, figure_name, sep="/"), width=1000, height=1000)
 
             # Create empty figure of the appropriate dimensions
             plot(data.sp[,(sp1_col+3)], data.sp[,(sp2_col+3)],
@@ -100,21 +100,20 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
                     # Subset data for that linkage group pair
                     dd = data.sp[data.sp[,(sp1_col+1)] == lg1 & data.sp[,(sp2_col+1)] == lg2, ]
 
-                    color = "black"
                     # Color quadrants lighter or darker grey depending on weather
                     # they are in a quadrant with enough data points or not
                     if (nrow(dd) >= minimum_number_of_points) {
                         rect(min.x, min.y, max.x, max.y, col="#00000022", border=F)
                         lg.correspondance = rbind(lg.correspondance, c(sp1, lg1, sp2, lg2))
                     } else {
-                        rect(min.x, min.y, max.x, max.y, col="#00000016", border=F)
+                        rect(min.x, min.y, max.x, max.y, col="#00000012", border=F)
                     }
 
                     # Adding the points
                     points(dd[,(sp1_col+3)], dd[,(sp2_col+3)],
                            xlab=paste(sp1, "map"),
                            ylab=paste(sp2, "map"),
-                           pch=19, col=color, cex=0.1)
+                           pch=19, col="black", cex=0.1)
                 }
             }
             dev.off()
