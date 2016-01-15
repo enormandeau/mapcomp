@@ -1,27 +1,26 @@
 #!/bin/bash
 
-# This script is to automate the counting of the markers to be mapped, and that do map during MapComp, lauch from the main directory
+# Count the proportion of markers that mapped on the genome
 
 # Global variables
-SPECIESDESIGNATION=species_designations.txt
+SPECIES_NAMES=species_names.txt
+FASTA_FILE=02_raw_data/markers.fasta
+SAM_FILE=03_mapped/wanted_loci.sam
+INFO_FILE=03_mapped/wanted_loci.info
 
-# Find out designations for species in the comparison
-awk '{ print $1 }' 03_mapped/wanted_loci.sam | awk -F'_' '{print $1}' | uniq > $SPECIESDESIGNATION
+# Find species names
+awk '{ print $1 }' ${SAM_FILE} | awk -F'_' '{print $1}' | uniq > ${SPECIES_NAMES}
 
-# Count how many markers are in each of those designations
-# and how many successful mappings against the reference genome there are
-cat ./$SPECIESDESIGNATION |
+# Count number of available and mapping markers per species and
+echo "Proportion of markers mapping on the genome:"
+cat ./${SPECIES_NAMES} |
     sort |
     while read i
     do
-        echo "Number of markers available: " $i
-        # TODO Remove explicit file names and replace by variables
-        grep -E "$i"_ 02_raw_data/all_species-30-11-15.fasta | wc -l
-        
-        echo "Number of mappings to genome: " $i
-        grep -E ^"$i"_ 03_mapped/wanted_loci.sam | awk '{ print $1 }' - | uniq | wc -l
-        echo "Number of pairs between $i and Sfon"
-        grep -E "^$i\t" 03_mapped/wanted_loci.info | grep -E 'Sfon\t' | wc -l
+        echo -e "  ${i}  \
+$(grep -E ^"$i"_ ${SAM_FILE} | awk '{ print $1 }' - | uniq | wc -l)/\
+$(grep -E "$i"_ ${FASTA_FILE} | wc -l)"
     done
 
-
+# Cleanup
+rm ${SPECIES_NAMES}

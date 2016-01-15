@@ -39,8 +39,8 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
             # Create empty figure of the appropriate dimensions
             plot(data.sp[,(sp1_col+3)], data.sp[,(sp2_col+3)],
                  main=paste("Map comparison for species", sp2, "and", sp1),
-                 xlab=paste(sp1, "map (distances in hundreds of CM)"),
-                 ylab=paste(sp2, "map (distances in hundreds of CM)"),
+                 xlab=paste(sp1, "map (distances in CM)"),
+                 ylab=paste(sp2, "map (distances in CM)"),
                  pch=19,
                  col="#00000088",
                  cex=0.5,
@@ -56,18 +56,18 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
             sp2.data = data.loci[data.loci[,1] == sp2, ]
 
             # Creating the axes
-            axis.increment = 200 # in CM
+            axis.increment = 500 # in CM
 
             # X axis
             maximum.axis.position.x = max(sp1.data[, 4])
             axis.positions.x = seq(0, maximum.axis.position.x, by=axis.increment)
-            axis.text.x = as.integer(axis.positions.x / 100)
+            axis.text.x = as.integer(axis.positions.x)
             axis(1, at=axis.positions.x, labels=axis.text.x, las=1, cex.axis=0.8)
 
             # Y axis
             maximum.axis.position.y = max(sp2.data[, 4])
             axis.positions.y = seq(0, maximum.axis.position.y, by=axis.increment)
-            axis.text.y = as.integer(axis.positions.y / 100)
+            axis.text.y = as.integer(axis.positions.y)
             axis(2, at=axis.positions.y, labels=axis.text.y, las=1, cex.axis=0.8)
 
             # Adding linkage group names for species 1 on x axis

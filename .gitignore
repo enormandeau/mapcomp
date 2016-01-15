@@ -1,4 +1,5 @@
 *.RData
+00_archive/*
 *.Rhistory
 *.Rproj
 *.bam

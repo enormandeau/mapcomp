@@ -1,55 +1,53 @@
-# it takes its arguements as a dataframe with two columns,
-#   the LG, the position on the LG.
-# it generates a third column, the totpos
+# Add marker total positions to a CSV input file prepared as described in
+# README.md
 
+# Example format of CSV input file below
+#SpeciesName,LG,Pos,TotPos,MarkerName,Sequence
+
+#species_name,1,0,0,63776,GTATGAGGTTTGTCTTTAACAAAGGTCTCCAGTCAGAAACAGAGATGATGTGTCTTTAACCCTCCAGT
+#species_name,1,6.135,0,64642,CATCAAGTTATAAAAGTAAATCAAGTTGACATGTTAATGTACACCTCAAAACAGCTCTTTTGATTCAG
+#species_name,1,7.349,0,2835,TGACTGATACTATAGGAAACTAAGGTAGTACCGATTTAGGTCAGTTGATTTGTGTCCACCATTTCCCC
+#species_name,1,8.381,0,97480,TCGTATCCCTCTAGGTCCATGTTCAAACACAGCTCCATCCTCCCTACGAGTTGAGCTCAGCCAGCCTC
+#species_name,1,13.62,0,61360,TCAGCCGTGTGCATTACTCGTAAAATCCCATTTCTTCGTGAACAGGCCCCACGGTTTCCAGCCCGGGA
+#species_name,1,14.347,0,100001,CTGTGTAAGGGCTATTTAACCAAGAAGGAGAGTGATGGATTGCTGCATCAGATGACCTGGCCTCCACA
+#species_name,1,15.925,0,19208,TTTTCTTCAGAGGGGATCTGCTGAGAGAGAAGCCCCTCCTACCAGGGGAGGAGATGACCATGCCACGC
+#species_name,1,16.856,0,44753,TGAAAAAGACAGATGTGAAGGTCCTGGACTGGCATGGTTACACATGGTCTGCGGTTGTGAGGCCGGTT
+#species_name,1,18.172,0,29838,ACACGAGAGGGACGGTGTTGGTGACATGATGTTAGCTGACAGGCAGGAAAACTGATGACTTTTTCATG
+#species_name,1,18.582,0,37275,CCTTAGAGCTAGGCTACAGTACCTCATACAATAATTTATTTGCTTTGTATGATTGAGTCAGAGGTTGT
+
+# Clear workspace
 rm(list=ls())
 
-#setwd("~/Documents/bernatchez/01_Sfon_projects/01_SfQTL/05_mapping_against_genomes/01_raw_materials/merged_cleaned_species_data")
-data <- read.csv(file = 
-                   "all_species.csv",
-                 header = F, col.names = c("sp","lg","pos","totpos","mname","seq"))
-head(data$pos)
-levels(data$sp)
-str(data) # make sure lg is integer
-str(data$lg) # needed to make these all parallel so I can make a for loop to generate absolute position for each species
-#data$lg <- as.numeric(data$lg)
+# Global variables
+input.csv = "input_markers.csv"
+output.csv = "input_markers_with_total_potision.csv"
 
+# Load data
+data = read.csv(input.csv, header = F, col.names = c("sp","lg","pos","totpos","mname","seq"))
 
-## 
-
-lg.unique = NULL
+# Initialize variables
 data.new = NULL
-spec.sp.data = NULL
 data$totpos = 0
 
+# TODO make variable names more explicit
+# Iterate over the species
 for (species in levels(data$sp)) {
-    print(species)
-    spec.sp.data <- data[data$sp == species, ]
-    #print(paste("test",species))
+    cat("  Treating:", species, "\n")
+    spec.sp.data = data[data$sp == species, ]
     lg.unique = unique(spec.sp.data$lg)
-    count = 0
-    
+
+    # Iterate over the LGs
     for (i in 1:(length(lg.unique) - 1)) {
-      print(i)
       maximum = max(spec.sp.data$pos[as.integer(spec.sp.data$lg) == i])
-      print(maximum)
+
       for (j in (i+1):length(lg.unique)) {
          spec.sp.data$totpos[as.integer(spec.sp.data$lg) == j] = 
             spec.sp.data$totpos[as.integer(spec.sp.data$lg) == j] + maximum
       }
     }
-    data.new <- rbind(data.new, spec.sp.data)    
+    data.new = rbind(data.new, spec.sp.data)    
 }
 
 data.new$totpos = data.new$totpos + data.new$pos
 
-head(data.new, n = 1000)[,1:4] # just to check
-
-write.table(x = data.new, file = "all_species_w_totpos.csv", row.names =F, quote = F, sep = ",", col.names = F)
-
-# then do this in bash:
-# awk -F, 'BEGIN{OFS="";} {print $1"_"$2"_"$3"_"$4"_"$5"\n"$6}' *totpos.csv > all_sp_RAD_maps-08-17-15-mapping_ready.fasta
-# fasta record name will be in this order: sp_lg_pos_totpos_mname
-
-# this file is the input for the map_comparison repo, so copy it to the raw data folder
-
+write.table(data.new, output.csv, row.names =F, quote = F, sep = ",", col.names = F)

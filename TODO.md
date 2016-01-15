@@ -1,17 +1,27 @@
 # Map Comp TODO
 
-- Creating the fasta file
-  - Create CSV file
-  - Compute total positions
-  - Create the fasta file
+## Bugs
 
-- Build a tutorial
-  - Provide genome
-  - Provide markers from 2 species in .csv file without totpos
-  - Describe how to produce the figures
-    - Add totpos
-    - Create fasta file
-    - Run pipeline
+- Data preparation
+  - Bug: If an LG group is skipped, R script dies
+  - Bug: If only one LG, R script dies
+
+## Features
+
+- Add folder for tutorial data (genome and csv file without totpos)
+- Add folder for output files
+- Rename scripts
+- Tweek mapping params to get higher proportion of mapping markers
+- Script to test mapping proportion
+  - Script `01_bwa_w_fasta`
+
+## Tutorial
+- Provide fake genome
+  - Copy it to `/02_raw_data/genome/genome.fasta`
+  - Index it with `bwa index /02_raw_data/genome/genome.fasta'
+- Provide CSV file with markers from 2 species without totpos
+- Prepare the data (add totpos, create fasta)
+- Run pipeline
 
 ## When paper accepted
 
