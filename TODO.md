@@ -4,10 +4,11 @@
 
 ## Features
 
+- Tweek mapping params to get higher proportion of mapping markers
+
 - Add utility script to rename LGs
 - Add folder for output files
 - Rename scripts
-- Tweek mapping params to get higher proportion of mapping markers
 - Script to test mapping proportion
   - Script `01_bwa_w_fasta`
 

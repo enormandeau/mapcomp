@@ -32,8 +32,4 @@ R --slave -q -e 'source("01_scripts/utility_scripts/total_linkage_group_position
 awk -F, 'BEGIN{OFS="";} {print ">"$1"_"$2"_"$3"_"$4"_"$5"\n"$6}' \
     ${OUTPUT_CSV_FILE} > ${INPUT_FASTA}
 
-# Cleanup
-rm ${INPUT_CSV_FILE}
-rm ${OUTPUT_CSV_FILE}
-
 echo "You can now run './mapcomp'"
