@@ -2,13 +2,9 @@
 
 ## Bugs
 
-- Data preparation
-  - Bug: If an LG group is skipped, R script dies
-  - Bug: If only one LG, R script dies
-
 ## Features
 
-- Add folder for tutorial data (genome and csv file without totpos)
+- Add utility script to rename LGs
 - Add folder for output files
 - Rename scripts
 - Tweek mapping params to get higher proportion of mapping markers

@@ -36,15 +36,20 @@ for (species in levels(data$sp)) {
     spec.sp.data = data[data$sp == species, ]
     lg.unique = unique(spec.sp.data$lg)
 
-    # Iterate over the LGs
-    for (i in 1:(length(lg.unique) - 1)) {
-      maximum = max(spec.sp.data$pos[as.integer(spec.sp.data$lg) == i])
+    if (length(lg.unique) > 1) {
+        # Iterate over the LGs
+        for (i in lg.unique) {
+            maximum = max(spec.sp.data$pos[as.integer(spec.sp.data$lg) == i])
 
-      for (j in (i+1):length(lg.unique)) {
-         spec.sp.data$totpos[as.integer(spec.sp.data$lg) == j] = 
-            spec.sp.data$totpos[as.integer(spec.sp.data$lg) == j] + maximum
-      }
+            for (j in lg.unique) {
+                if (j > i) {
+                    spec.sp.data$totpos[as.integer(spec.sp.data$lg) == j] = 
+                        spec.sp.data$totpos[as.integer(spec.sp.data$lg) == j] + maximum
+                }
+            }
+        }
     }
+
     data.new = rbind(data.new, spec.sp.data)    
 }
 
