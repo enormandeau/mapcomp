@@ -23,3 +23,6 @@
 *.xlsx
 *~
 bwa.*
+
+# un-ignore
+!/02_raw_data/genome/tutorial_genome.fasta
