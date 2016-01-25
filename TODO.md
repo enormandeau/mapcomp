@@ -4,13 +4,9 @@
 
 ## Features
 
-- Tweek mapping params to get higher proportion of mapping markers
-
-- Add utility script to rename LGs
-- Add folder for output files
 - Rename scripts
-- Script to test mapping proportion
-  - Script `01_bwa_w_fasta`
+- Add utility script to rename LGs
+- Use multiple genomes to retain more markers?
 
 ## Tutorial
 - Provide fake genome
