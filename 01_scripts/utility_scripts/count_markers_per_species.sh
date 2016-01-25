@@ -9,7 +9,7 @@ SAM_FILE=03_mapped/wanted_loci.sam
 INFO_FILE=03_mapped/wanted_loci.info
 
 # Find species names
-awk '{ print $1 }' ${SAM_FILE} | awk -F'_' '{print $1}' | uniq > ${SPECIES_NAMES}
+awk '{ print $1 }' ${SAM_FILE} | awk -F'_' '{print $1}' | sort | uniq > ${SPECIES_NAMES}
 
 # Count number of available and mapping markers per species and
 echo "Proportion of markers mapping on the genome:"
@@ -17,9 +17,10 @@ cat ./${SPECIES_NAMES} |
     sort |
     while read i
     do
-        echo -e "  ${i}  \
-$(grep -E ^"$i"_ ${SAM_FILE} | awk '{ print $1 }' - | uniq | wc -l)/\
-$(grep -E "$i"_ ${FASTA_FILE} | wc -l)"
+        mapped=$(grep -E ^"$i"_ ${SAM_FILE} | awk '{ print $1 }' - | uniq | wc -l)
+        total=$(grep -E "$i"_ ${FASTA_FILE} | wc -l)
+        percent=$(echo "100.0 * ${mapped} / ${total}" | bc)
+        echo -e "  ${i} ${mapped} / ${total} (${percent}%)" 
     done
 
 # Cleanup
