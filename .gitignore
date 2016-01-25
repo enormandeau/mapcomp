@@ -1,9 +1,9 @@
 *.RData
-00_archive/*
 *.Rhistory
 *.Rproj
 *.bam
 *.bam.*
+*.csv
 *.fa
 *.fa.*
 *.fasta*
@@ -22,7 +22,10 @@
 *.xls
 *.xlsx
 *~
+00_archive/*
+02_raw_data/00_archive/*
 bwa.*
 
 # un-ignore
 !/02_raw_data/genome/tutorial_genome.fasta
+!/02_raw_data/tutorial_markers.csv
