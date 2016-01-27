@@ -25,10 +25,17 @@ The main steps in using MapComp are:
 
 # Tutorial
 ```
-./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_raw_data_tutorial_markers.csv
+# Prepare fasta file
+./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_raw_data/tutorial_markers.csv
+
+# Rename and index genome
 mv 02_raw_data/genome/tutorial_genome.fasta 02_raw_data/genome/genome.fasta
 bwa index 02_raw_data/genome/genome.fasta
+
+# Run mapcomp
 ./mapcomp
+
+# Look at figures!
 ```
 
 # TODO
