@@ -27,6 +27,21 @@ The main steps in using MapComp are:
   - Create figures
 
 # Tutorial
+
+A tutorial data set of markers for two species and a reference genome are
+included in MapComp. Both the genome and marker data used for the tutorial were
+created *in silico*. As a result, the figures will look too perfect. However, 
+the goal of the tutorial is for you to run a full MapComp analysis once so that
+you then know how to use it on your real data. Additionally, the tutorial data
+serves as an example of the exact format required for the .csv file containing
+the information about the map markers.
+
+Once you have made the tutorial work, then using MapComp on your data will be
+as easy as preparing the .csv file, automatically creating the markers fasta
+file, getting and indexing the reference genome and running `./mapcomp`.
+
+## Tutorial run
+
 ```
 # Prepare fasta file
 ./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_raw_data/tutorial_markers.csv
@@ -39,11 +54,7 @@ bwa index 02_raw_data/genome/genome.fasta
 ./mapcomp
 ```
 
-You can now look at the figures in the `04_figures` folder. Note that the data
-used for the tutorial is fake markers for two species based on a fake genome.
-As a result, the figures look too good. However, if you can make the tutorial
-work, then using mapcomp on your data is as easy as preparing the .csv file,
-getting and indexing the reference genome and running `./mapcomp`.
+You can now look at the figures in the `04_figures` folder.
 
 # TODO
 
@@ -60,7 +71,10 @@ Note: Importance of respecting the EXACT format
 ## Collecting the data
 # TODO
 
-## Creating the marker fasta file
+## Creating the markers .csv file
+# TODO
+
+## Automatically creating the markers fasta file
 # TODO
 
 ## Running MapComp in one step
