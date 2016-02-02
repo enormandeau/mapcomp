@@ -17,19 +17,33 @@ maps that are being compared.
 
 The main steps in using MapComp are:
 
-- Get and prepare markers data of different taxons
-- Map marker sequences on genome scaffolds
-- Filter out non-unique and bad quality alignments
-- Keep only the best marker pairs
-- Create figures
+- Get and index reference genome
+- Get and prepare markers data of different taxons in .csv file
+- Prepare fasta file of marker automatically from .csv file
+- Run mapcomp, which will:
+  - Map marker sequences on genome scaffolds
+  - Filter out non-unique and bad quality alignments
+  - Keep only the best marker pairs
+  - Create figures
 
 # Tutorial
 ```
-./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_raw_data_tutorial_markers.csv
-mv 02_raw_data/genome/tutorial_genome.fasta 02_raw_data/genome/genome.fasta
+# Get and index reference genome
+cp 02_raw_data/genome/tutorial_genome.fasta 02_raw_data/genome/genome.fasta
 bwa index 02_raw_data/genome/genome.fasta
+
+# Prepare fasta file of markers automatically from .csv file
+./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_raw_data/tutorial_markers.csv
+
+# Run mapcomp
 ./mapcomp
 ```
+
+You can now look at the figures in the `04_figures` folder. Note that the data
+used for the tutorial is fake markers for two species based on a fake genome.
+As a result, the figures look too good. However, if you can make the tutorial
+work, then using mapcomp on your data is as easy as preparing the .csv file,
+getting and indexing the reference genome and running `./mapcomp`.
 
 # TODO
 
