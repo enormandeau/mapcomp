@@ -28,12 +28,12 @@ The main steps in using MapComp are:
 
 # Tutorial
 ```
-# Get and index reference genome
-cp 02_raw_data/genome/tutorial_genome.fasta 02_raw_data/genome/genome.fasta
-bwa index 02_raw_data/genome/genome.fasta
-
-# Prepare fasta file of markers automatically from .csv file
+# Prepare fasta file
 ./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_raw_data/tutorial_markers.csv
+
+# Rename and index genome
+mv 02_raw_data/genome/tutorial_genome.fasta 02_raw_data/genome/genome.fasta
+bwa index 02_raw_data/genome/genome.fasta
 
 # Run mapcomp
 ./mapcomp
