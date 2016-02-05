@@ -4,21 +4,23 @@ A Genetic Map Comparison Pipeline
 
 # Introduction
 
-MapComp facilitates the visual comparison among maps of similar taxons in order
-to assess their quality and makes exploring the genetic evolution of these
-taxons simpler. The novelty of the approach lies in the use of a reference
-genome to maximize the number of marker pairs that can be compared among maps,
-even when completely different library preparation protocols have been used to
-create the map markers. As such, it requires the existence of an assembled
-genome for a species that is phylogenetically close to the species with the
-maps that are being compared.
+MapComp facilitates the visual comparison among linkage maps of similar taxons
+in order to assess their quality and makes exploring the genetic evolution of
+these taxons simpler. The novelty of the approach lies in the use of a
+reference genome to maximize the number of marker pairs that can be compared
+among maps, even when completely different library preparation protocols have
+been used to create the map markers. As such, it requires the existence of an
+assembled genome for a species that is phylogenetically close to the species
+with the maps that are being compared.
 
 # Using MapComp
 
 The main steps in using MapComp are:
 
-- Get and index reference genome
-- Get and prepare markers data of different taxons in .csv file
+- Get reference genome and put here: `02_raw_data/genome/genome.fasta`
+- Index reference genome
+- Get marker data from different taxa
+- Prepare .csv file (see `02_raw_data/tutorial_markers.csv` for exact format)
 - Prepare fasta file of marker automatically from .csv file
 - Run mapcomp, which will:
   - Map marker sequences on genome scaffolds
@@ -26,19 +28,36 @@ The main steps in using MapComp are:
   - Keep only the best marker pairs
   - Create figures
 
+# Dependencies
+
+In order to use MapComp, you will need the following:
+
+- Linux or MacOS
+- bwa
+- samtools
+- The R statistical language
+
+If you are using a Debian derived Linux distribution for example Ubuntu or
+Linux Mint, you can install all the required tools with the following command:
+
+```
+sudo apt-get install bwa samtools r-base-core
+```
+
 # Tutorial
 
 A tutorial data set of markers for two species and a reference genome are
 included in MapComp. Both the genome and marker data used for the tutorial were
-created *in silico*. As a result, the figures will look too perfect. However, 
+created *in silico*. As a result, the figures will look too perfect. However,
 the goal of the tutorial is for you to run a full MapComp analysis once so that
 you then know how to use it on your real data. Additionally, the tutorial data
 serves as an example of the exact format required for the .csv file containing
-the information about the map markers.
+the information about the markers of the different linkage map.
 
-Once you have made the tutorial work, then using MapComp on your data will be
-as easy as preparing the .csv file, automatically creating the markers fasta
-file, getting and indexing the reference genome and running `./mapcomp`.
+Once you have produced the figures from the tutorial data, then using MapComp
+on your data will be as easy as preparing the .csv file, automatically creating
+the markers fasta file, getting and indexing the reference genome and running
+`./mapcomp`.
 
 ## Tutorial run
 
@@ -47,7 +66,7 @@ file, getting and indexing the reference genome and running `./mapcomp`.
 ./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_raw_data/tutorial_markers.csv
 
 # Rename and index genome
-mv 02_raw_data/genome/tutorial_genome.fasta 02_raw_data/genome/genome.fasta
+cv 02_raw_data/genome/tutorial_genome.fasta 02_raw_data/genome/genome.fasta
 bwa index 02_raw_data/genome/genome.fasta
 
 # Run mapcomp
@@ -56,76 +75,74 @@ bwa index 02_raw_data/genome/genome.fasta
 
 You can now look at the figures in the `04_figures` folder.
 
-# TODO
+# Data preparation
 
-## Data preparation
+In order to compare linkage maps, you will need to collect the following
+information about each marker:
 
-Note: Importance of respecting the EXACT format
+- Species name (eg: hsapiens)
+- Linkage Group number
+- Position (eg: in centi Morgans, or cM)
+- Marker Identifier (eg: marker_0001)
+- Marker Nucleotide Sequence (60 base pairs of more)
 
-- Collect data
-- Download reference genome
-- Create marker fasta file
-- Genome -> `./02_raw_data/genome/genome.fasta`
-- Markers -> `./02_raw_data/markers.fasta`
+Once you have all this information about the markers, you will need to create a
+.csv file containing these informations, plus one extra column containing
+zeroes, in the following format:
 
-## Collecting the data
-# TODO
+```
+SpeciesName,LG,Position,Zeroes,markerName,markerSequence
+```
 
-## Creating the markers .csv file
-# TODO
+Here is what the .csv file may look like:
 
-## Automatically creating the markers fasta file
-# TODO
+```
+hsapiens,1,0.58,0,marker_0001,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
+hsapiens,1,5.74,0,marker_0002,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
+...
+hsapiens,1,122.39,0,marker_0227,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
+```
 
-## Running MapComp in one step
-# TODO
+Use the `02_raw_data/tutorial_markers.csv` file as a template for your own .csv
+file.
 
-## Running MapComp step by step
+Note that:
 
-### Mapping the markers on the genome
+- There is no header line in the .csv file
+- There are 6 columns of information
+- The different columns are separated by a comma (`,`)
+- The fourth column is filled with zeroes (`0`)
+- You need more than one map in the .csv file
 
-- Index the genome if needed with
+# Automatically creating the markers fasta file
+
+The .csv file will be used to create a fasta file using the following script:
+
+```
+./01_scripts/00_prepare_input_fasta_file_from_csv.sh <your_file.csv>
+```
+
+This will produce a file named `02_raw_data/marker.fasta`.
+
+# Preparing the reference genome
+
+Once you have a reference genome in fasta format, copy it here:
+`02_raw_data/genome/genome.fasta` and index it with bwa:
 
 ```
 bwa index 02_raw_data/genome/genome.fasta
 ```
 
-- Launch `01_scripts/01_bwa_w_fa.sh`
+# Running MapComp
+
+Once your data has been prepared and your reference genome is indexed, running
+mapcomp is as easy launching the following command:
 
 ```
-./01_scripts/01_bwa_w_fa.sh
-```
-
-### Extracting meaningful hits
-
-```
-./01_scripts/02_get_wanted_loci_ids.sh \
-    03_mapped/markers.fasta.sorted.bam
-
-./01_scripts/03_get_wanted_loci_sam.py \
-    03_mapped/markers.fasta.sam \
-    03_mapped/wanted_loci.ids \
-    03_mapped/wanted_loci.sam
-```
-
-### Keeping only the best marker pairs
-
-```
-./01_scripts/04_pair_markers_by_target.py \
-    03_mapped/wanted_loci.sam \
-    03_mapped/wanted_loci.ids \
-    03_mapped/wanted_loci.info \
-    10000000
-```
-
-### Creating MapComp figures
-
-```
-R -q -e 'source("01_scripts/05_create_figures.R")'
+./mapcomp
 ```
 
 # Citing
-# TODO
 If you use MapComp in your research, please cite:
 
 Sutherland et al. 2016...
