@@ -5,9 +5,9 @@ A Genetic Map Comparison Pipeline
 # Introduction
 
 MapComp facilitates the visual comparison among linkage maps of similar taxons
-in order to assess their quality and makes exploring the genetic evolution of
-these taxons simpler. The novelty of the approach lies in the use of a
-reference genome to maximize the number of marker pairs that can be compared
+in order to assess their quality and to simplify the exploration of their
+genomic evolution. The novelty of the approach lies in the use of a reference
+genome in order to maximize the number of marker pairs that can be compared
 among maps, even when completely different library preparation protocols have
 been used to create the map markers. As such, it requires the existence of an
 assembled genome for a species that is phylogenetically close to the species
@@ -17,11 +17,11 @@ with the maps that are being compared.
 
 The main steps in using MapComp are:
 
-- Get reference genome and put here: `02_data/genome/genome.fasta`
-- Index reference genome
-- Get marker data from different taxa
-- Prepare .csv file (see `02_data/tutorial_markers.csv` for exact format)
-- Prepare fasta file of marker automatically from .csv file
+- Get a reference genome and put here: `02_data/genome/genome.fasta`
+- Index the reference genome (`bwa index 02_data/genome/genome.fasta`)
+- Get marker data from two or more taxa
+- Prepare .csv marker file (see `02_data/tutorial_markers.csv` for exact format)
+- Prepare fasta marker file automatically from .csv file
 - Run mapcomp, which will:
   - Map marker sequences on genome scaffolds
   - Filter out non-unique and bad quality alignments
@@ -38,7 +38,7 @@ In order to use MapComp, you will need the following:
 - samtools
 - The R statistical language
 
-If you are using a Debian derived Linux distribution for example Ubuntu or
+If you are using a Debian derived Linux distribution, for example Ubuntu or
 Linux Mint, you can install all the required tools with the following command:
 
 ```
@@ -50,10 +50,10 @@ sudo apt-get install bwa samtools r-base-core
 A tutorial data set of markers for two species and a reference genome are
 included in MapComp. Both the genome and marker data used for the tutorial were
 created *in silico*. As a result, the figures will look too perfect. However,
-the goal of the tutorial is for you to run a full MapComp analysis once so that
-you then know how to use it on your real data. Additionally, the tutorial data
-serves as an example of the exact format required for the .csv file containing
-the information about the markers of the different linkage map.
+the goal of the tutorial to run a full MapComp analysis once as an example of
+how to use it with your real data. Additionally, the tutorial .csv data file
+serves as an example of the exact format required for the marker .csv file,
+which contains the marker information for the analyzed species.
 
 Once you have produced the figures from the tutorial data, then using MapComp
 on your data will be as easy as preparing the .csv file, automatically creating
@@ -74,7 +74,8 @@ bwa index 02_data/genome/genome.fasta
 ./mapcomp
 ```
 
-You can now look at the figures in the `04_figures` folder.
+You can now look at the figures in the `04_figures` folder and at the linkage
+group correspondance among the species in the `05_results` folder.
 
 # Data preparation
 
@@ -82,14 +83,14 @@ In order to compare linkage maps, you will need to collect the following
 information about each marker:
 
 - Species name (eg: hsapiens)
-- Linkage Group number
-- Position (eg: in centi Morgans, or cM)
-- Marker Identifier (eg: marker_0001)
+- Linkage Group number (eg: 1, 2, 3...)
+- Position in centi Morgans, or cM (eg: 0, 5.32, 22.8)
+- Marker Identifier (eg: marker0001)
 - Marker Nucleotide Sequence (60 base pairs of more)
 
 Once you have all this information about the markers, you will need to create a
-.csv file containing these informations, plus one extra column containing
-zeroes, in the following format:
+.csv file containing these informations. The .csv file will feature one extra
+column containing zeroes and be in the following format:
 
 ```
 SpeciesName,LG,Position,Zeroes,markerName,markerSequence
@@ -98,10 +99,10 @@ SpeciesName,LG,Position,Zeroes,markerName,markerSequence
 Here is what the .csv file may look like:
 
 ```
-hsapiens,1,0.58,0,marker_0001,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
-hsapiens,1,5.74,0,marker_0002,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
+hsapiens,1,0.58,0,marker0001,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
+hsapiens,1,5.74,0,marker0002,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
 ...
-hsapiens,1,122.39,0,marker_0227,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
+hsapiens,1,122.39,0,marker0227,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
 ```
 
 Use the `02_data/tutorial_markers.csv` file as a template for your own .csv
@@ -114,6 +115,8 @@ Note that:
 - The different columns are separated by a comma (`,`)
 - The fourth column is filled with zeroes (`0`)
 - You need more than one map in the .csv file
+- You should avoid special characters, including underscores (`_`) in the marker names
+- You must use the period (`.`) as the decimal separator (no comma (`,`))
 
 # Automatically creating the markers fasta file
 
