@@ -15,12 +15,12 @@ data.pairs = read.table("03_mapped/wanted_loci.info")
 data.loci = read.table("02_data/markers.fasta.info")
 
 # Loop over species pairs
-cat("  Creating pairwise map comparison figures...\n")
+cat("  Creating map comparison figures...\n")
 
 lg.correspondance = NULL
 
 for (sp1 in levels(data.pairs[,sp1_col])) {
-    cat(paste("    ", sp1, "\tVS\t", sep=""))
+    cat(paste("    ", sp1, " VS ", sep=""))
 
     for (sp2 in levels(data.pairs[,sp2_col])) {
         if (sp1 != sp2) {
