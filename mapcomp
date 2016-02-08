@@ -1,7 +1,33 @@
 #!/bin/bash
 
+# Global variables
+FASTA_FILE="02_data/markers.fasta"
+GENOME_FILE="02_data/genome/genome.fasta"
+
 # Indexing genome
 # bwa index 02_data/genome/genome.fasta
+
+# Test if markers.fasta file exists
+no_fasta_file () {
+    echo "Missing marker file: ${FASTA_FILE}"
+    exit
+}
+test -s ${FASTA_FILE} || no_fasta_file
+
+# Test if genome.fasta file exists
+no_genome_file () {
+    echo "Missing genome file: ${GENOME_FILE}"
+    exit
+}
+test -s ${GENOME_FILE} || no_genome_file
+
+# Test if genome is indexed
+no_genome_index () {
+    echo "Genome is not indexed. Index it with:"
+    echo "bwa index 02_data/genome/genome.fasta"
+    exit
+}
+test -s ${GENOME_FILE}.sa || no_genome_index
 
 # Running MapComp
 echo "Running MapComp"
