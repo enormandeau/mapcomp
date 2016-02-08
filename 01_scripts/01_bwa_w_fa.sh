@@ -2,9 +2,9 @@
 # use bwa mem to map map loci in fasta format against reference genome
 
 # global variables (note: point to REFERENCE_GENOME)
-readonly INPUT_FASTA="02_raw_data/markers.fasta"
-readonly REFERENCE_GENOME="02_raw_data/genome/genome.fasta"
-readonly INPUT_FOLDER="02_raw_data"
+readonly INPUT_FASTA="02_data/markers.fasta"
+readonly REFERENCE_GENOME="02_data/genome/genome.fasta"
+readonly INPUT_FOLDER="02_data"
 readonly MAPPED_FOLDER="03_mapped"
 readonly NUMPROCESSORS=16
 readonly PROGNAME=$0

@@ -2,9 +2,9 @@
 
 # Global variables
 readonly USER_INPUT=${1}
-readonly INPUT_CSV_FILE="02_raw_data/.temp_input_markers.csv"
-readonly OUTPUT_CSV_FILE="02_raw_data/markers_with_total_potision.csv"
-readonly INPUT_FASTA="02_raw_data/markers.fasta"
+readonly INPUT_CSV_FILE="02_data/.temp_input_markers.csv"
+readonly OUTPUT_CSV_FILE="02_data/markers_with_total_potision.csv"
+readonly INPUT_FASTA="02_data/markers.fasta"
 
 # Function to print script usage
 usage () {

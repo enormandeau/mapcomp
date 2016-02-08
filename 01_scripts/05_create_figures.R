@@ -12,7 +12,7 @@ sp2_col=8
 
 # Load data.pairs
 data.pairs = read.table("03_mapped/wanted_loci.info")
-data.loci = read.table("02_raw_data/markers.fasta.info")
+data.loci = read.table("02_data/markers.fasta.info")
 
 # Loop over species pairs
 cat("  Creating pairwise map comparison figures...\n")

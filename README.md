@@ -17,10 +17,10 @@ with the maps that are being compared.
 
 The main steps in using MapComp are:
 
-- Get reference genome and put here: `02_raw_data/genome/genome.fasta`
+- Get reference genome and put here: `02_data/genome/genome.fasta`
 - Index reference genome
 - Get marker data from different taxa
-- Prepare .csv file (see `02_raw_data/tutorial_markers.csv` for exact format)
+- Prepare .csv file (see `02_data/tutorial_markers.csv` for exact format)
 - Prepare fasta file of marker automatically from .csv file
 - Run mapcomp, which will:
   - Map marker sequences on genome scaffolds
@@ -64,11 +64,11 @@ the markers fasta file, getting and indexing the reference genome and running
 
 ```
 # Prepare fasta file
-./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_raw_data/tutorial_markers.csv
+./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_data/tutorial_markers.csv
 
 # Rename and index genome
-cv 02_raw_data/genome/tutorial_genome.fasta 02_raw_data/genome/genome.fasta
-bwa index 02_raw_data/genome/genome.fasta
+cv 02_data/genome/tutorial_genome.fasta 02_data/genome/genome.fasta
+bwa index 02_data/genome/genome.fasta
 
 # Run mapcomp
 ./mapcomp
@@ -104,7 +104,7 @@ hsapiens,1,5.74,0,marker_0002,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
 hsapiens,1,122.39,0,marker_0227,CGGCACCTCCACTGCGGCACGAAGAGTTAGGCCCCGTGCTTTGCGG
 ```
 
-Use the `02_raw_data/tutorial_markers.csv` file as a template for your own .csv
+Use the `02_data/tutorial_markers.csv` file as a template for your own .csv
 file.
 
 Note that:
@@ -123,15 +123,15 @@ The .csv file will be used to create a fasta file using the following script:
 ./01_scripts/00_prepare_input_fasta_file_from_csv.sh <your_file.csv>
 ```
 
-This will produce a file named `02_raw_data/marker.fasta`.
+This will produce a file named `02_data/marker.fasta`.
 
 # Preparing the reference genome
 
 Once you have a reference genome in fasta format, copy it here:
-`02_raw_data/genome/genome.fasta` and index it with bwa:
+`02_data/genome/genome.fasta` and index it with bwa:
 
 ```
-bwa index 02_raw_data/genome/genome.fasta
+bwa index 02_data/genome/genome.fasta
 ```
 
 # Running MapComp

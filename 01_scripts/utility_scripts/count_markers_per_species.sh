@@ -4,7 +4,7 @@
 
 # Global variables
 SPECIES_NAMES=species_names.txt
-FASTA_FILE=02_raw_data/markers.fasta
+FASTA_FILE=02_data/markers.fasta
 SAM_FILE=03_mapped/wanted_loci.sam
 INFO_FILE=03_mapped/wanted_loci.info
 
