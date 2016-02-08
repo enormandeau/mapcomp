@@ -67,7 +67,7 @@ the markers fasta file, getting and indexing the reference genome and running
 ./01_scripts/00_prepare_input_fasta_file_from_csv.sh 02_data/tutorial_markers.csv
 
 # Rename and index genome
-cv 02_data/genome/tutorial_genome.fasta 02_data/genome/genome.fasta
+cp 02_data/genome/tutorial_genome.fasta 02_data/genome/genome.fasta
 bwa index 02_data/genome/genome.fasta
 
 # Run mapcomp

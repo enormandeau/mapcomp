@@ -7,19 +7,19 @@
 echo "Running MapComp"
 
 # Mapping reads
-./01_scripts/01_bwa_w_fa.sh
+./01_scripts/01_bwa_align_reads.sh
 
 # Identify good loci
-./01_scripts/02_get_wanted_loci_ids.sh \
+./01_scripts/02_filter_bad_loci.sh \
     03_mapped/markers.fasta.sorted.bam
 
 # Extracting good loci
-./01_scripts/03_get_wanted_loci_sam.py \
+./01_scripts/03_extract_good_loci.py \
     03_mapped/markers.fasta.sam \
     03_mapped/wanted_loci.ids 03_mapped/wanted_loci.sam
 
 # Extracting best marker pairs
-./01_scripts/04_pair_markers_by_target.py \
+./01_scripts/04_pair_markers.py \
     03_mapped/wanted_loci.sam \
     03_mapped/wanted_loci.ids \
     03_mapped/wanted_loci.info \
