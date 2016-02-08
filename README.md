@@ -33,6 +33,7 @@ The main steps in using MapComp are:
 In order to use MapComp, you will need the following:
 
 - Linux or MacOS
+- Python 2.7
 - bwa
 - samtools
 - The R statistical language

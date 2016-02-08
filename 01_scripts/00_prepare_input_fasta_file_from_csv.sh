@@ -2,8 +2,8 @@
 
 # Global variables
 readonly USER_INPUT=${1}
-readonly INPUT_CSV_FILE="input_markers.csv"
-readonly OUTPUT_CSV_FILE="input_markers_with_total_potision.csv"
+readonly INPUT_CSV_FILE="02_raw_data/.temp_input_markers.csv"
+readonly OUTPUT_CSV_FILE="02_raw_data/markers_with_total_potision.csv"
 readonly INPUT_FASTA="02_raw_data/markers.fasta"
 
 # Function to print script usage
@@ -33,3 +33,6 @@ awk -F, 'BEGIN{OFS="";} {print ">"$1"_"$2"_"$3"_"$4"_"$5"\n"$6}' \
     ${OUTPUT_CSV_FILE} > ${INPUT_FASTA}
 
 echo "You can now run './mapcomp'"
+
+# Cleanup
+rm ${INPUT_CSV_FILE}

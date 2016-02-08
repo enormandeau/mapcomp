@@ -3,15 +3,16 @@
 # Empty workspace
 rm(list=ls())
 
-# Load data.pairs
-data.pairs = read.table("03_mapped/wanted_loci.info")
-data.loci = read.table("02_raw_data/markers.fasta.info")
-
 # Global variables
+output_lg_correspondance = "05_results/linkage_group_correspondance.csv"
 minimum_number_of_points = 5 # Minimum number hits between 2 LGs to display in dark
 figure_folder = "04_figures"
 sp1_col=1
 sp2_col=8
+
+# Load data.pairs
+data.pairs = read.table("03_mapped/wanted_loci.info")
+data.loci = read.table("02_raw_data/markers.fasta.info")
 
 # Loop over species pairs
 cat("  Creating pairwise map comparison figures...\n")
@@ -122,4 +123,4 @@ for (sp1 in levels(data.pairs[,sp1_col])) {
     cat("\n")
 }
 
-write.table(lg.correspondance, "linkage_group_correspondance.csv", sep="\t", row.names=F, col.names=F, quote=F)
+write.table(lg.correspondance, output_lg_correspondance, sep="\t", row.names=F, col.names=F, quote=F)

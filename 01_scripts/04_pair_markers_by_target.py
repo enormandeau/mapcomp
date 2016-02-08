@@ -140,7 +140,6 @@ if __name__ == '__main__':
             wanted.add(line.strip())
 
     # Build dictionary of targets (keys) and a all the loci who mapped to them (values)
-    print("  Building dictionary of species and loci...")
     targets = defaultdict(list)
     with open(sam_file) as sfile:
         for line in sfile:

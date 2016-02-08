@@ -19,8 +19,8 @@
 rm(list=ls())
 
 # Global variables
-input.csv = "input_markers.csv"
-output.csv = "input_markers_with_total_potision.csv"
+input.csv = "02_raw_data/.temp_input_markers.csv"
+output.csv = "02_raw_data/markers_with_total_potision.csv"
 
 # Load data
 data = read.csv(input.csv, header = F, col.names = c("sp","lg","pos","totpos","mname","seq"))
