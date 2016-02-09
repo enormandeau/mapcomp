@@ -2,7 +2,7 @@
 
 A Genetic Map Comparison Pipeline
 
-# Introduction
+## Introduction
 
 MapComp facilitates the visual comparison among linkage maps of similar taxons
 in order to assess their quality and to simplify the exploration of their
@@ -13,7 +13,7 @@ been used to create the map markers. As such, it requires the existence of an
 assembled genome for a species that is phylogenetically close to the species
 with the maps that are being compared.
 
-# Using MapComp
+## Using MapComp
 
 The main steps in using MapComp are:
 
@@ -28,7 +28,7 @@ The main steps in using MapComp are:
   - Keep only the best marker pairs
   - Create figures
 
-# Dependencies
+## Dependencies
 
 In order to use MapComp, you will need the following:
 
@@ -45,7 +45,7 @@ Linux Mint, you can install all the required tools with the following command:
 sudo apt-get install bwa samtools r-base-core
 ```
 
-# Tutorial
+## Tutorial
 
 A tutorial data set of markers for two species and a reference genome are
 included in MapComp. Both the genome and marker data used for the tutorial were
@@ -60,7 +60,7 @@ on your data will be as easy as preparing the .csv file, automatically creating
 the markers fasta file, getting and indexing the reference genome and running
 `./mapcomp`.
 
-## Tutorial run
+### Tutorial run
 
 ```
 # Rename and index genome
@@ -77,7 +77,7 @@ bwa index 02_data/genome/genome.fasta
 You can now look at the figures in the `04_figures` folder and at the linkage
 group correspondance among the species in the `05_results` folder.
 
-# Data preparation
+## Data preparation
 
 In order to compare linkage maps, you will need to collect the following
 information about each marker:
@@ -118,7 +118,7 @@ Note that:
 - You should avoid special characters, including underscores (`_`) in the marker names
 - You must use the period (`.`) as the decimal separator (no comma (`,`))
 
-# Automatically creating the markers fasta file
+## Automatically creating the markers fasta file
 
 The .csv file will be used to create a fasta file using the following script:
 
@@ -128,7 +128,7 @@ The .csv file will be used to create a fasta file using the following script:
 
 This will produce a file named `02_data/marker.fasta`.
 
-# Preparing the reference genome
+## Preparing the reference genome
 
 Once you have a reference genome in fasta format, copy it here:
 `02_data/genome/genome.fasta` and index it with bwa:
@@ -137,7 +137,7 @@ Once you have a reference genome in fasta format, copy it here:
 bwa index 02_data/genome/genome.fasta
 ```
 
-# Running MapComp
+## Running MapComp
 
 Once your data has been prepared and your reference genome is indexed, running
 mapcomp is as easy launching the following command:
@@ -146,14 +146,14 @@ mapcomp is as easy launching the following command:
 ./mapcomp
 ```
 
-# Citing
+## Citing
 If you use MapComp in your research, please cite:
 
 Sutherland BJG, Gosselin T, Normandeau E, Lamothe M, Isabel N, Bernatchez L.
 Novel method for comparing RADseq linkage maps reveals chromosome evolution in
 salmonids. bioRxiv. 2016: 1–44. doi:10.1101/039164
 
-# License
+## License
 
 MapComp is licensed under the GNU General Public Licence version 3 (GPL3). See
 the LICENCE file for more details.
