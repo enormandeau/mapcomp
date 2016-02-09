@@ -149,7 +149,9 @@ mapcomp is as easy launching the following command:
 # Citing
 If you use MapComp in your research, please cite:
 
-Sutherland et al. 2016...
+Sutherland BJG, Gosselin T, Normandeau E, Lamothe M, Isabel N, Bernatchez L.
+Novel method for comparing RADseq linkage maps reveals chromosome evolution in
+salmonids. bioRxiv. 2016: 1–44. doi:10.1101/039164
 
 # License
 
