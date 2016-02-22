@@ -34,6 +34,7 @@ In order to use MapComp, you will need the following:
 
 - Linux or MacOS
 - Python 2.7
+- numpy (Python library)
 - bwa
 - samtools
 - The R statistical language
