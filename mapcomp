@@ -1,8 +1,11 @@
 #!/bin/bash
 
+## USAGE : mapcom genome_ref markers
+## NOTE  : infiles are fasta files.
+
 # Global variables
-FASTA_FILE="02_data/markers.fasta"
-GENOME_FILE="02_data/genome/genome.fasta"
+GENOME_FILE="${1-02_data/genome/genome.fasta}"
+FASTA_FILE="${2-02_data/markers.fasta}"
 
 # Indexing genome
 # bwa index 02_data/genome/genome.fasta
@@ -33,7 +36,7 @@ test -s ${GENOME_FILE}.sa || no_genome_index
 echo "Running MapComp"
 
 # Mapping reads
-./01_scripts/01_bwa_align_reads.sh
+./01_scripts/01_bwa_align_reads.sh 
 
 # Identify good loci
 ./01_scripts/02_filter_bad_loci.sh \
