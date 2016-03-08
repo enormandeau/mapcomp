@@ -1,14 +1,12 @@
 #!/bin/bash
-# use bwa mem to map map loci in fasta format against reference genome
+
+## AIMS  : use bwa mem to map map loci in fasta format against reference genome
+## USAGE : 01_bwa_align_reads.sh genome_ref markers mapped_dir
 # NOTE  : tmp files will be created in the input directory
 # NOTE  : outfiles (sam, sorted.bam) will be created in the input directory, before moved to MAPPED_FOLDER.
 # NOTE  : info file will be created (and stay) in the input directory
 
 # global variables (note: point to REFERENCE_GENOME)
-readonly INPUT_FASTA="02_data/markers.fasta"
-readonly REFERENCE_GENOME="02_data/genome/genome.fasta"
-readonly INPUT_FOLDER="02_data"
-readonly MAPPED_FOLDER="03_mapped"
 readonly NUMPROCESSORS=16
 readonly PROGNAME=$0
 
