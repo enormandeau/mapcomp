@@ -1,18 +1,24 @@
 # Create map to map comparison figures
+args = commandArgs( TRUE )
 
 # Empty workspace
 rm(list=ls())
 
 # Global variables
-output_lg_correspondance = "05_results/linkage_group_correspondance.csv"
+# default value set for retro-compatibility reason
+pairs_file = ifelse( exists( args[1] ), arg[1], "03_mapped/wanted_loci.info" )
+loci_file  = ifelse( exists( args[2] ), arg[2], "02_data/markers.fasta.info" )
+output_lg_correspondance = ifelse( exists( args[1] ), args[1], "05_results/linkage_group_correspondance.csv" )
+figure_folder = ifelse( exists( args[2] ), arg[2], "04_figures" )
+
 minimum_number_of_points = 5 # Minimum number hits between 2 LGs to display in dark
-figure_folder = "04_figures"
 sp1_col=1
 sp2_col=8
 
 # Load data.pairs
-data.pairs = read.table("03_mapped/wanted_loci.info")
-data.loci = read.table("02_data/markers.fasta.info")
+# Note : var name or file name are not well chosen, imho
+data.pairs = read.table( pairs_file )
+data.loci = read.table( loci_file )
 
 # Loop over species pairs
 cat("  Creating map comparison figures...\n")
