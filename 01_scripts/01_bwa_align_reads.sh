@@ -1,5 +1,6 @@
 #!/bin/bash
 # use bwa mem to map map loci in fasta format against reference genome
+# NOTE  : a tmp file will be created in the input directory
 
 # global variables (note: point to REFERENCE_GENOME)
 readonly INPUT_FASTA="02_data/markers.fasta"
@@ -8,6 +9,14 @@ readonly INPUT_FOLDER="02_data"
 readonly MAPPED_FOLDER="03_mapped"
 readonly NUMPROCESSORS=16
 readonly PROGNAME=$0
+
+# default values are define for retro-compatibility reason.
+# I (sletort) think a warn message before exit is better.
+readonly REFERENCE_GENOME="${1-02_data/genome/genome.fasta}"
+readonly INPUT_FASTA="${2-02_data/markers.fasta}"
+readonly MAPPED_FOLDER="${3-03_mapped}"
+
+readonly INPUT_FOLDER=$( dirname "$INPUT_FASTA" )
 
 # Notes:
 # Assumes adapters have been removed from reads
@@ -31,7 +40,7 @@ echo "  Aligning reads to genome..."
 bwa mem -t ${NUMPROCESSORS} ${REFERENCE_GENOME} ${INPUT_FASTA} > ${INPUT_FASTA}.sam 2> /dev/null
 
 # keep only mapped reads (-F 4)
-echo "  Filering non-mapped reads..."
+echo "  Filtering non-mapped reads..."
 samtools view -Sb -F 4 ${INPUT_FASTA}.sam > ${INPUT_FASTA}.mapped_only.bam 2> /dev/null
 
 # Sort reads
