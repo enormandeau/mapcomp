@@ -1,4 +1,5 @@
-# Create map to map comparison figures
+## AIMS  : Create map to map comparison figures
+## USAGE : Rscript --vanilla 05_create_figures.R pairs_file loci_file output_lg_correspondance figure_folder
 args = commandArgs( TRUE )
 
 # Empty workspace
