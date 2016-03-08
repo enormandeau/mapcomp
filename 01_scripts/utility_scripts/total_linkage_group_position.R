@@ -18,9 +18,11 @@
 # Clear workspace
 rm(list=ls())
 
-# Global variables
-input.csv = "02_data/.temp_input_markers.csv"
-output.csv = "02_data/markers_with_total_potision.csv"
+args = commandArgs( TRUE )
+
+# Global variables / default values
+input.csv  = ifelse( exists( args[1] ), args[1], "02_data/.temp_input_markers.csv" )
+output.csv = ifelse( exists( args[2] ), args[2], "02_data/markers_with_total_potision.csv" )
 
 # Load data
 data = read.csv(input.csv, header = F, col.names = c("sp","lg","pos","totpos","mname","seq"))
