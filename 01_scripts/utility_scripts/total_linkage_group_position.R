@@ -21,8 +21,12 @@ rm(list=ls())
 args = commandArgs( TRUE )
 
 # Global variables / default values
-input.csv  = ifelse( exists( args[1] ), args[1], "02_data/.temp_input_markers.csv" )
-output.csv = ifelse( exists( args[2] ), args[2], "02_data/markers_with_total_potision.csv" )
+input.csv  = args[1]
+
+# I don't know how to use exists!
+x = args[2]
+# output.csv = ifelse( exists( "args[2]" ), args[2], "02_data/markers_with_total_potision.csv" )
+output.csv = ifelse( exists( "x" ), x, "02_data/markers_with_total_potision.csv" )
 
 # Load data
 data = read.csv(input.csv, header = F, col.names = c("sp","lg","pos","totpos","mname","seq"))
