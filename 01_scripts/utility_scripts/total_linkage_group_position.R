@@ -1,5 +1,5 @@
-# Add marker total positions to a CSV input file prepared as described in
-# README.md
+## AIMS  : Add marker total positions to a CSV input file prepared as described in README.md
+## USAGE : Rscript --vanilla total_linkage_group_position.R input.csv output.csv
 
 # Example format of CSV input file below
 #SpeciesName,LG,Pos,TotPos,MarkerName,Sequence
