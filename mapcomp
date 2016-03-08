@@ -6,6 +6,11 @@
 # Global variables
 GENOME_FILE="${1-02_data/genome/genome.fasta}"
 FASTA_FILE="${2-02_data/markers.fasta}"
+MAPPED_DIR="${3-03_mapped}"
+OUTFILE="05_results/linkage_group_correspondance.csv"
+FIGURE_DIR="04_figures"
+
+declare -r bname=$( basename "${FASTA_FILE}" )
 
 # Indexing genome
 # bwa index 02_data/genome/genome.fasta
@@ -36,23 +41,31 @@ test -s ${GENOME_FILE}.sa || no_genome_index
 echo "Running MapComp"
 
 # Mapping reads
-./01_scripts/01_bwa_align_reads.sh 
+#   will generate "${FASTA_FILE}".info bname.sam & bname.sorted.bam in MAPPED_DIR
+./01_scripts/01_bwa_align_reads.sh \
+    "${GENOME_FILE}" "${FASTA_FILE}" "${MAPPED_DIR}"
 
 # Identify good loci
 ./01_scripts/02_filter_bad_loci.sh \
-    03_mapped/markers.fasta.sorted.bam
+    "${MAPPED_DIR}/$bname.sorted.bam" \
+    "${MAPPED_DIR}/wanted_loci.ids"
 
 # Extracting good loci
 ./01_scripts/03_extract_good_loci.py \
-    03_mapped/markers.fasta.sam \
-    03_mapped/wanted_loci.ids 03_mapped/wanted_loci.sam
+    "${MAPPED_DIR}/$bname.sam" \
+    "${MAPPED_DIR}/wanted_loci.ids" \
+    "${MAPPED_DIR}/wanted_loci.sam"
 
 # Extracting best marker pairs
 ./01_scripts/04_pair_markers.py \
-    03_mapped/wanted_loci.sam \
-    03_mapped/wanted_loci.ids \
-    03_mapped/wanted_loci.info \
+    "${MAPPED_DIR}/wanted_loci.sam" \
+    "${MAPPED_DIR}/wanted_loci.ids" \
+    "${MAPPED_DIR}/wanted_loci.info" \
     10000000
 
 # Creating figures
-R --slave -e 'source("01_scripts/05_create_figures.R")'
+Rscript--vanilla 01_scripts/05_create_figures.R \
+    "${MAPPED_DIR}/wanted_loci.info" \
+    "${FASTA_FILE}" \
+    "$OUTFILE" \
+    ${FIGURE_DIR}
