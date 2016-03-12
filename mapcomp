@@ -1,18 +1,20 @@
 #!/bin/bash
 
-## USAGE : mapcom genome_ref markers
-## NOTE  : infiles are fasta files.
+## USAGE : mapcom genome_ref markers mapped_dir figure_dir outfile
+## NOTE  : genome_ref and markers are fasta files.
+## NOTE  : outfile is a csv file.
 
 set -o errexit
 set -o nounset
 
 # Global variables
-GENOME_FILE="${1-02_data/genome/genome.fasta}"
-FASTA_FILE="${2-02_data/markers.fasta}"
-MAPPED_DIR="${3-03_mapped}"
-OUTFILE="05_results/linkage_group_correspondance.csv"
-FIGURE_DIR="04_figures"
+declare -r GENOME_FILE="${1-02_data/genome/genome.fasta}"
+declare -r FASTA_FILE="${2-02_data/markers.fasta}"
+declare -r MAPPED_DIR="${3-03_mapped}"
+declare -r FIGURE_DIR="${4-04_figures}"
+declare -r OUTFILE="${5-05_results/linkage_group_correspondance.csv}"
 
+declare -r PROGDIR=$( readlink -e $( dirname $0 ) )
 declare -r bname=$( basename "${FASTA_FILE}" )
 
 # Indexing genome
@@ -45,29 +47,29 @@ echo "Running MapComp"
 
 # Mapping reads
 #   will generate "${FASTA_FILE}".info bname.sam & bname.sorted.bam in MAPPED_DIR
-./01_scripts/01_bwa_align_reads.sh \
+"${PROGDIR}"/01_scripts/01_bwa_align_reads.sh \
     "${GENOME_FILE}" "${FASTA_FILE}" "${MAPPED_DIR}"
 
 # Identify good loci
-./01_scripts/02_filter_bad_loci.sh \
+"${PROGDIR}"/01_scripts/02_filter_bad_loci.sh \
     "${MAPPED_DIR}/$bname.sorted.bam" \
     "${MAPPED_DIR}/wanted_loci.ids"
 
 # Extracting good loci
-./01_scripts/03_extract_good_loci.py \
+"${PROGDIR}"/01_scripts/03_extract_good_loci.py \
     "${MAPPED_DIR}/$bname.sam" \
     "${MAPPED_DIR}/wanted_loci.ids" \
     "${MAPPED_DIR}/wanted_loci.sam"
 
 # Extracting best marker pairs
-./01_scripts/04_pair_markers.py \
+"${PROGDIR}"/01_scripts/04_pair_markers.py \
     "${MAPPED_DIR}/wanted_loci.sam" \
     "${MAPPED_DIR}/wanted_loci.ids" \
     "${MAPPED_DIR}/wanted_loci.info" \
     10000000
 
 # Creating figures
-Rscript --vanilla 01_scripts/05_create_figures.R \
+Rscript --vanilla "${PROGDIR}"/01_scripts/05_create_figures.R \
     "${MAPPED_DIR}/wanted_loci.info" \
     "${FASTA_FILE}" \
     "$OUTFILE" \

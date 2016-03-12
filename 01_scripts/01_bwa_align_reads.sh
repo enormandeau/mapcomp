@@ -12,6 +12,7 @@ set -o nounset
 # global variables (note: point to REFERENCE_GENOME)
 readonly NUMPROCESSORS=16
 readonly PROGNAME=$0
+readonly PROGDIR=$( readlink -e $( dirname $0 ) )
 
 # default values are define for retro-compatibility reason.
 # I (sletort) think a warn message before exit is better.
@@ -33,7 +34,7 @@ grep ">" ${INPUT_FASTA} |
     perl -pe 's/>//; s/_/\t/g' |
     awk 'BEGIN {OFS="\t"} {print $1,$2,$4}' >> ${INPUT_FASTA}.temp
 
-./01_scripts/utility_scripts/find_min_max_total_positions.py ${INPUT_FASTA}.temp ${INPUT_FASTA}.info
+"${PROGDIR}"/utility_scripts/find_min_max_total_positions.py ${INPUT_FASTA}.temp ${INPUT_FASTA}.info
 
 rm ${INPUT_FASTA}.temp
 
@@ -52,4 +53,4 @@ samtools sort ${INPUT_FASTA}.mapped_only.bam ${INPUT_FASTA}.sorted 2> /dev/null
 
 # clean temporary files
 rm ${INPUT_FASTA}.mapped_only.bam
-mv ./${INPUT_FOLDER}/*.sam ./${INPUT_FOLDER}/*.sorted.bam ./${MAPPED_FOLDER}/
+mv "${INPUT_FOLDER}"/*.sam "${INPUT_FOLDER}"/*.sorted.bam "${MAPPED_FOLDER}"/
