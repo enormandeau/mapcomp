@@ -3,6 +3,9 @@
 ## AIMS  : Identify the loci that map uniquely to the reference with a MAPQ score >= 10
 ## USAGE : 02_filter_bad_loci.sh bamfile outfile
 
+set -o errexit
+set -o nounset
+
 # Global variables
 readonly BAMFILE="$1"
 readonly DIRECTORY="$(dirname $1)"

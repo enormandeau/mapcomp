@@ -3,6 +3,9 @@
 ## USAGE : mapcom genome_ref markers
 ## NOTE  : infiles are fasta files.
 
+set -o errexit
+set -o nounset
+
 # Global variables
 GENOME_FILE="${1-02_data/genome/genome.fasta}"
 FASTA_FILE="${2-02_data/markers.fasta}"
@@ -64,7 +67,7 @@ echo "Running MapComp"
     10000000
 
 # Creating figures
-Rscript--vanilla 01_scripts/05_create_figures.R \
+Rscript --vanilla 01_scripts/05_create_figures.R \
     "${MAPPED_DIR}/wanted_loci.info" \
     "${FASTA_FILE}" \
     "$OUTFILE" \

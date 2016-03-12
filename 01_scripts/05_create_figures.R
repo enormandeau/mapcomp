@@ -1,16 +1,21 @@
 ## AIMS  : Create map to map comparison figures
 ## USAGE : Rscript --vanilla 05_create_figures.R pairs_file loci_file output_lg_correspondance figure_folder
-args = commandArgs( TRUE )
 
 # Empty workspace
 rm(list=ls())
 
+args = commandArgs( TRUE )
+
 # Global variables
 # default value set for retro-compatibility reason
-pairs_file = ifelse( exists( args[1] ), arg[1], "03_mapped/wanted_loci.info" )
-loci_file  = ifelse( exists( args[2] ), arg[2], "02_data/markers.fasta.info" )
-output_lg_correspondance = ifelse( exists( args[1] ), args[1], "05_results/linkage_group_correspondance.csv" )
-figure_folder = ifelse( exists( args[2] ), arg[2], "04_figures" )
+x = args[1]
+pairs_file = ifelse( exists( x ), x, "03_mapped/wanted_loci.info" )
+x = args[2]
+loci_file  = ifelse( exists( x ), x, "02_data/markers.fasta.info" )
+x <- args[3]
+output_lg_correspondance = ifelse( exists( x ), x, "05_results/linkage_group_correspondance.csv" )
+x <- args[4]
+figure_folder = ifelse( exists( x ), x, "04_figures" )
 
 minimum_number_of_points = 5 # Minimum number hits between 2 LGs to display in dark
 sp1_col=1

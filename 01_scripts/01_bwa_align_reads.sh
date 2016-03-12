@@ -6,6 +6,9 @@
 # NOTE  : outfiles (sam, sorted.bam) will be created in the input directory, before moved to MAPPED_FOLDER.
 # NOTE  : info file will be created (and stay) in the input directory
 
+set -o errexit
+set -o nounset
+
 # global variables (note: point to REFERENCE_GENOME)
 readonly NUMPROCESSORS=16
 readonly PROGNAME=$0
@@ -34,7 +37,7 @@ grep ">" ${INPUT_FASTA} |
 
 rm ${INPUT_FASTA}.temp
 
-# Map reads using bwa mem 
+# Map reads using bwa mem
 # Align reads
 echo "  Aligning reads to genome..."
 bwa mem -t ${NUMPROCESSORS} ${REFERENCE_GENOME} ${INPUT_FASTA} > ${INPUT_FASTA}.sam 2> /dev/null
