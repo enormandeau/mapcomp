@@ -71,6 +71,6 @@ echo "Running MapComp"
 # Creating figures
 Rscript --vanilla "${PROGDIR}"/01_scripts/05_create_figures.R \
     "${MAPPED_DIR}/wanted_loci.info" \
-    "${FASTA_FILE}" \
+    "${FASTA_FILE}.info" \
     "$OUTFILE" \
     ${FIGURE_DIR}
