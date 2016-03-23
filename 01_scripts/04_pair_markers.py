@@ -2,7 +2,7 @@
 """Find pairs of inter-species markers that map to the same target
 
 Usage:
-    python extract_wanted_loci.py sam_file wanted_loci output_file max_dist
+    python 04_pair_markers.py sam_file wanted_loci output_file max_dist
 """
 
 # Modules

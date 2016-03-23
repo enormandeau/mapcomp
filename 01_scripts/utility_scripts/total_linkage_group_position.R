@@ -1,5 +1,5 @@
-# Add marker total positions to a CSV input file prepared as described in
-# README.md
+## AIMS  : Add marker total positions to a CSV input file prepared as described in README.md
+## USAGE : Rscript --vanilla total_linkage_group_position.R input.csv output.csv
 
 # Example format of CSV input file below
 #SpeciesName,LG,Pos,TotPos,MarkerName,Sequence
@@ -18,9 +18,15 @@
 # Clear workspace
 rm(list=ls())
 
-# Global variables
-input.csv = "02_data/.temp_input_markers.csv"
-output.csv = "02_data/markers_with_total_potision.csv"
+args = commandArgs( TRUE )
+
+# Global variables / default values
+input.csv  = args[1]
+
+# I don't know how to use exists!
+x = args[2]
+# output.csv = ifelse( exists( "args[2]" ), args[2], "02_data/markers_with_total_potision.csv" )
+output.csv = ifelse( exists( "x" ), x, "02_data/markers_with_total_potision.csv" )
 
 # Load data
 data = read.csv(input.csv, header = F, col.names = c("sp","lg","pos","totpos","mname","seq"))

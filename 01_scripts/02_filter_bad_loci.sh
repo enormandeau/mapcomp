@@ -1,12 +1,17 @@
 #!/bin/bash
-# Identify the loci that map uniquely to the reference with a MAPQ score >= 10
 
-# Usage:
-# ./01_scripts/get_wanted_loci_ids.sh bamfile
+## AIMS  : Identify the loci that map uniquely to the reference with a MAPQ score >= 10
+## USAGE : 02_filter_bad_loci.sh bamfile outfile
+
+set -o errexit
+set -o nounset
 
 # Global variables
 readonly BAMFILE="$1"
 readonly DIRECTORY="$(dirname $1)"
+
+# default value set for retro-compatibility reason
+readonly OUTFILE="${2-${DIRECTORY}/wanted_loci.ids}"
 
 # Filter bam file
 echo "  Filtering bad alignments..."
