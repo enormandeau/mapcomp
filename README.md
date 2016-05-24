@@ -4,14 +4,13 @@ A Genetic Map Comparison Pipeline
 
 ## Introduction
 
-MapComp facilitates the visual comparison among linkage maps of similar taxons
-in order to assess their quality and to simplify the exploration of their
-genomic evolution. The novelty of the approach lies in the use of a reference
-genome in order to maximize the number of marker pairs that can be compared
+MapComp facilitates visual comparisons among linkage maps of closely-related species
+in order to assess their quality and to simplify the exploration of their chromosomal
+differences. The novelty of the approach lies in the use of a reference
+genome in order to maximize the number of marker pairs comparable
 among maps, even when completely different library preparation protocols have
-been used to create the map markers. As such, it requires the existence of an
-assembled genome for a species that is phylogenetically close to the species
-with the maps that are being compared.
+been used to create the map markers. As such, MapComp requires the existence of at least a contig-level
+assembly for a species that is phylogenetically close to the target species.
 
 ## Using MapComp
 
@@ -146,6 +145,13 @@ mapcomp is as easy launching the following command:
 ```
 ./mapcomp
 ```
+
+## Exploring Results
+
+After MapComp finishes, visual plots comparing between linkage maps will be in 
+`04_figures` and a summary of results in `05_results`. For more detailed results, one can inspect
+the file `03_mapped/wanted_loci.info`. This file contains the details needed in marker pairs between 
+species, and can be useful to obtain exact locations of marker mapping on the reference genome.
 
 ## Citing
 If you use MapComp in your research, please cite:
