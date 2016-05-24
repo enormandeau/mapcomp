@@ -153,6 +153,9 @@ After MapComp finishes, visual plots comparing between linkage maps will be in
 the file `03_mapped/wanted_loci.info`. This file contains the details needed in marker pairs between 
 species, and can be useful to obtain exact locations of marker mapping on the reference genome.
 
+Example of output results (here using the tutorial markers/genome):
+![Alt text](00_archive/tutorial_figure.png?raw=true  "Output Example")
+
 ## Citing
 If you use MapComp in your research, please cite:
 
