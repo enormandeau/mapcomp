@@ -29,3 +29,4 @@ bwa.*
 # un-ignore
 !/02_data/genome/tutorial_genome.fasta
 !/02_data/tutorial_markers.csv
+!/00_archive/tutorial_figure.png
