@@ -4,13 +4,14 @@ A Genetic Map Comparison Pipeline
 
 ## Introduction
 
-MapComp facilitates visual comparisons among linkage maps of closely-related species
-in order to assess their quality and to simplify the exploration of their chromosomal
-differences. The novelty of the approach lies in the use of a reference
-genome in order to maximize the number of marker pairs comparable
-among maps, even when completely different library preparation protocols have
-been used to create the map markers. As such, MapComp requires the existence of at least a contig-level
-assembly for a species that is phylogenetically close to the target species.
+MapComp facilitates visual comparisons among linkage maps of closely-related
+species in order to assess their quality and to simplify the exploration of
+their chromosomal differences. The novelty of the approach lies in the use of a
+reference genome in order to maximize the number of comparable marker pairs
+among pairs of maps, even when completely different library preparation
+protocols have been used to generate the markers. As such, MapComp requires a
+reference genome, at least a contig-level genome assembly, for a species that
+is phylogenetically close to the target species.
 
 ## Using MapComp
 
@@ -20,9 +21,9 @@ The main steps in using MapComp are:
 - Index the reference genome (`bwa index 02_data/genome/genome.fasta`)
 - Get marker data from two or more taxa
 - Prepare .csv marker file (see `02_data/tutorial_markers.csv` for exact format)
-- Prepare fasta marker file automatically from .csv file
+- Prepare markers fasta file automatically from .csv file
 - Run mapcomp, which will:
-  - Map marker sequences on genome scaffolds
+  - Map marker sequences on reference genome scaffolds
   - Filter out non-unique and bad quality alignments
   - Keep only the best marker pairs
   - Create figures
@@ -49,8 +50,8 @@ sudo apt-get install bwa samtools r-base-core
 
 A tutorial data set of markers for two species and a reference genome are
 included in MapComp. Both the genome and marker data used for the tutorial were
-created *in silico*. As a result, the figures will look too perfect. However,
-the goal of the tutorial to run a full MapComp analysis once as an example of
+created *in silico*. As a result, the figures will look really perfect.
+However, the goal of the tutorial to run a full MapComp analysis once to learn
 how to use it with your real data. Additionally, the tutorial .csv data file
 serves as an example of the exact format required for the marker .csv file,
 which contains the marker information for the analyzed species.
@@ -148,12 +149,13 @@ mapcomp is as easy launching the following command:
 
 ## Exploring Results
 
-After MapComp finishes, visual plots comparing between linkage maps will be in 
-`04_figures` and a summary of results in `05_results`. For more detailed results, one can inspect
-the file `03_mapped/wanted_loci.info`. This file contains the details needed in marker pairs between 
-species, and can be useful to obtain exact locations of marker mapping on the reference genome.
+After MapComp finishes, visual plots comparing between linkage maps will be in
+`04_figures` and a summary of results in `05_results`. For more detailed
+results, one can inspect the file `03_mapped/wanted_loci.info`. This file
+contains the details needed in marker pairs between species, and can be useful
+to obtain exact locations of marker mapping on the reference genome.
 
-Example of output results (here using the tutorial markers/genome):
+Example output image from the tutorial markers and genome:
 ![Alt text](00_archive/tutorial_figure.png?raw=true  "Output Example")
 
 ## Citing
