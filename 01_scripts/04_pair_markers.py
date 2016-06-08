@@ -8,6 +8,7 @@ Usage:
 # Modules
 from collections import defaultdict
 import numpy as np
+import warnings
 import random
 import math
 import sys
@@ -41,88 +42,35 @@ class Locus(object):
                           self.hit_position])
 
 # Functions
-def find_closest_locus(self_locus, other_loci):
-    """For one locus in 'self' species, find closest one in 'other' species
-    In case of ties, send only the first one
-    """
-
-    self_position = float(self_locus.position)
-    other_positions = [abs( self_position - float(x.position)) for x in other_loci]
-    result = other_loci[other_positions.index(min(other_positions))]
-    return result
-
-def find_min_coord(distance_matrix, max_dist):
-    """Find coordinates of smallest distance(s) in a distance matrix
-    """
-
-    coord = []
-
-    flat = [item for sublist in distance_matrix for item in sublist if item >= 0]
-    minimum = min([x for x in flat])
-
-    for i in range(len(distance_matrix)):
-        for j in range(len(distance_matrix[0])):
-            if distance_matrix[i][j] == minimum:
-                if minimum >= max_dist:
-                    cleanup_matrix(distance_matrix, (i, j))
-                    return coord
-
-                row_min = min([abs(x) for x in distance_matrix[i]])
-                col = [x[j] for x in distance_matrix]
-                col_min = min([abs(x) for x in col])
-
-                if distance_matrix[i][j] > min([row_min, col_min]):
-                    cleanup_matrix(distance_matrix, (i, j))
-                    return coord
-
-                else:
-                    coord.append((i, j))
-
-    return coord
-
-def cleanup_matrix(distance_matrix, coord):
-    """Remove other possible pairs for items that were paired
-    """
-
-    x, y = coord
-    for i in range(len(distance_matrix)):
-        for j in range(len(distance_matrix[0])):
-            if i == x or j == y:
-                # Remove other possibilities
-                if distance_matrix[i][j] > 0:
-                    distance_matrix[i][j] *= -1
-
-    return distance_matrix
-
-def is_finished(distance_matrix):
-    """Determine if all best locus pairs have been found
-    """
-
-    flat = [item for sublist in distance_matrix for item in sublist if item >= 0]
-    return set(flat) == set([])
-
-def find_best_pairs(distance_matrix, max_dist):
+def get_best_pairs(distance_matrix, max_dist):
     """Find best pairs of markers
 
     Each marker is used a maximum of one time
     """
 
-    finished = False
-    good_pairs = []
+    # Compute row and column minimums
+    row_minimums = np.nanmin(distance_matrix, axis=1)
+    col_minimums = np.nanmin(distance_matrix, axis=0)
 
-    while not finished:
-        coord = find_min_coord(distance_matrix, max_dist)
+    # Find best pairs
+    best_pairs = []
+    nrow, ncol = distance_matrix.shape
+    already_found = set()
 
-        if len(coord) > 0:
-            distance_matrix = cleanup_matrix(distance_matrix, coord[0])
-            good_pairs.append(coord[0])
+    for row in xrange(nrow):
+        for col in xrange(ncol):
+            value = distance_matrix[row, col]
+            if value == row_minimums[row] and value == col_minimums[col] and value not in already_found:
+                already_found.add(value)
+                best_pairs.append((row, col))
 
-        finished = is_finished(distance_matrix)
-
-    return good_pairs
+    return best_pairs
 
 # Main
 if __name__ == '__main__':
+    # Suppress numpy nan means warnings
+    warnings.filterwarnings("ignore")
+
     # Parsing user input
     try:
         sam_file = sys.argv[1]
@@ -135,12 +83,14 @@ if __name__ == '__main__':
 
     # Building set of wanted loci
     wanted = set()
+
     with open(wanted_loci) as wfile:
         for line in wfile:
             wanted.add(line.strip())
 
     # Build dictionary of targets (keys) and a all the loci who mapped to them (values)
     targets = defaultdict(list)
+
     with open(sam_file) as sfile:
         for line in sfile:
             locus = Locus(line)
@@ -148,9 +98,8 @@ if __name__ == '__main__':
 
     # Go through targets and find pairs of cross species markers 
     print("  Find best pairs of markers...")
+
     with open(output_file, "w") as outfile:
-        #count = 1
-        #max_count = 1000000000
         for target in targets:
             loci = targets[target]
 
@@ -160,32 +109,27 @@ if __name__ == '__main__':
             if len(species) > 1:
                 for sp1 in species:
                     sp1_loci = [x for x in loci if x.species == sp1]
-                    for sp2 in [x for x in species if x != sp1]:
 
-                        #if sp1 != sp2: # TODO redundant?
+                    for sp2 in [x for x in species if x != sp1]:
                         sp2_loci = [x for x in loci if x.species == sp2]
 
-                        #if count > max_count:
-                        #    sys.exit(0)
-                        #else:
-                        #    count += 1
-
                         # Create distance matrix
-                        distance_matrix = []
+                        nrow = len(sp1_loci)
+                        ncol = len(sp2_loci)
+                        distance_matrix = np.zeros((nrow, ncol))
+
                         for l1 in range(len(sp1_loci)):
-                            distance_matrix.append([])
                             for l2 in range(len(sp2_loci)):
-                                abs_dist = 0.1 + abs(int(sp1_loci[l1].hit_position) -
+                                abs_dist = abs(int(sp1_loci[l1].hit_position) -
                                           int(sp2_loci[l2].hit_position))
 
-                                distance_matrix[l1].append(abs_dist)
+                                distance_matrix[l1, l2] = abs_dist
 
                         # Find best pairs
-                        best_pairs = find_best_pairs(distance_matrix, max_dist)
-
+                        best_pairs = get_best_pairs(distance_matrix, max_dist)
+                        
                         for pair in best_pairs:
                             i1, i2 = pair
                             l1 = sp1_loci[i1]
                             l2 = sp2_loci[i2]
-
                             outfile.write("\t".join([str(l1), str(l2)]) + "\n")
