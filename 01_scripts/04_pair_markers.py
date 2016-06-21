@@ -60,7 +60,7 @@ def get_best_pairs(distance_matrix, max_dist):
     for row in xrange(nrow):
         for col in xrange(ncol):
             value = distance_matrix[row, col]
-            if value == row_minimums[row] and value == col_minimums[col] and value not in already_found:
+            if value <= max_dist and value == row_minimums[row] and value == col_minimums[col] and value not in already_found:
                 already_found.add(value)
                 best_pairs.append((row, col))
 
