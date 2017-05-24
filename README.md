@@ -36,7 +36,7 @@ In order to use MapComp, you will need the following:
 - Python 2.7
 - numpy (Python library)
 - bwa
-- samtools
+- samtools (1.x release) 
 - The R statistical language
 
 If you are using a Debian derived Linux distribution, for example Ubuntu or
