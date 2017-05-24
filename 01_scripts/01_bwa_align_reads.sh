@@ -36,7 +36,7 @@ samtools view -Sb -F 4 ${INPUT_FASTA}.sam > ${INPUT_FASTA}.mapped_only.bam 2> /d
 
 # Sort reads
 echo "  Sorting bam file..."
-samtools sort ${INPUT_FASTA}.mapped_only.bam ${INPUT_FASTA}.sorted 2> /dev/null
+samtools sort ${INPUT_FASTA}.mapped_only.bam -o ${INPUT_FASTA}.sorted.bam 2> /dev/null
 
 # clean temporary files
 rm ${INPUT_FASTA}.mapped_only.bam
