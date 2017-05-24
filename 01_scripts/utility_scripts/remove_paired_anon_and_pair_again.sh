@@ -1,16 +1,23 @@
 # Pair using MapComp, then remove the anonymous paired markers from the input fasta file and redo the pairings again
+# NOTE: this is currently destructive to the markers.fasta file in 02_data/ so always have a second version saved elsewere that can be easily re-copied back into this repo. 
 
-#Note: requires biopython
-#Note: requires 01_scripts/utility_scripts/fasta_remove.py
-# This script was developed by Eric Normandeau
-# https://github.com/enormandeau/Scripts
+# Dependencies:
+# Requires biopython
+# Requires 01_scripts/utility_scripts/fasta_remove.py
+#   The fasta_remove.py script was developed by Eric Normandeau
+#   https://github.com/enormandeau/Scripts
 
-# Known issues:
-# TODO Fix using the .pre to replace fasta at the end as this can result in problems if one stops the process mid-process
-# For now, just don't keep the only copy of the markers file in this repo.
-
+# Setup:
 # Set the species name of the anon markers
 ANON="Salp.anon"
+# this will correspond to the first field in the fasta accession name (e.g. >Salp.anon_1_0_0_29)
+
+# Run all from the main directory:
+# ./01_scripts/utility_scripts/remove_paired_anon_and_pair_again.sh
+
+# TODO Fix using the .pre to replace fasta at the end as this can result in problems if one stops the process mid-process
+
+
 
 # Standard files
 WANTED_LOCI="03_mapped/wanted_loci.info"
