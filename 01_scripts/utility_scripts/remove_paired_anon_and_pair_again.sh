@@ -1,7 +1,7 @@
 # Pair using MapComp, then remove the anonymous paired markers from the input fasta file and redo the pairings again
 
 #Note: requires biopython
-#Note: requires 01_scripts/fasta_remove.py
+#Note: requires 01_scripts/utility_scripts/fasta_remove.py
 # This script was developed by Eric Normandeau
 # https://github.com/enormandeau/Scripts
 
@@ -44,7 +44,7 @@ do
     echo $PAIRINGS_NUM
     
     # Remove paired markers from fasta
-    ./01_scripts/fasta_remove.py ./02_data/markers.fasta $PAIRINGS_NAMES 02_data/markers_remaining.fasta
+    ./01_scripts/utility_scripts/fasta_remove.py ./02_data/markers.fasta $PAIRINGS_NAMES 02_data/markers_remaining.fasta
      
     # Replace original markers file with the removed markers file
     mv 02_data/markers_remaining.fasta 02_data/markers.fasta
