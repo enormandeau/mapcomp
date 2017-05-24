@@ -159,11 +159,16 @@ Example output image from the tutorial markers and genome:
 ![Alt text](00_archive/tutorial_figure.png?raw=true  "Output Example")
 
 ## Citing
+
 If you use MapComp in your research, please cite:
 
 Sutherland BJG, Gosselin T, Normandeau E, Lamothe M, Isabel N, Bernatchez L.
 Novel method for comparing RADseq linkage maps reveals chromosome evolution in
 salmonids. bioRxiv. 2016: 1–44. doi:10.1101/039164
+
+## Troubleshooting
+
+A Google Group for MapComp is available at: https://groups.google.com/forum/#!forum/mapcomp
 
 ## License
 
