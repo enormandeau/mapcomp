@@ -46,6 +46,8 @@ def get_best_pairs(distance_matrix, max_dist):
     """Find best pairs of markers
 
     Each marker is used a maximum of one time
+    ie: each row and each column is used only once.
+
     """
 
     # Compute row and column minimums
@@ -55,14 +57,25 @@ def get_best_pairs(distance_matrix, max_dist):
     # Find best pairs
     best_pairs = []
     nrow, ncol = distance_matrix.shape
-    already_found = set()
+    used_columns = set()
 
     for row in xrange(nrow):
+        row_used = False
+
         for col in xrange(ncol):
             value = distance_matrix[row, col]
-            if value <= max_dist and value == row_minimums[row] and value == col_minimums[col] and value not in already_found:
-                already_found.add(value)
+            if value <= max_dist and value == row_minimums[row] and value == col_minimums[col] and col not in used_columns:
+
                 best_pairs.append((row, col))
+
+                # Keep track of used columns and rows
+                used_columns.add(col)
+                row_used = True
+                break
+
+        # Verify that row has already been used
+        if row_used:
+            continue
 
     return best_pairs
 
