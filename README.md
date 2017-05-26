@@ -149,11 +149,11 @@ mapcomp is as easy launching the following command:
 
 ## Exploring Results
 
-After MapComp finishes, visual plots comparing between linkage maps will be in
-`04_figures` and a summary of results in `05_results`. For more detailed
-results, one can inspect the file `03_mapped/wanted_loci.info`. This file
-contains the details needed in marker pairs between species, and can be useful
-to obtain exact locations of marker mapping on the reference genome.
+After MapComp finishes, visual plots comparing the different linkage maps will be 
+found in `04_figures` and a summary of the results in `05_results`. For more detailed
+results, one can inspect the `03_mapped/wanted_loci.info` file. This file
+contains the details of the marker pairs found for each species pair, and can be
+useful to obtain exact mapping locations of markers on the reference genome.
 
 Example output image from the tutorial markers and genome:
 ![Alt text](00_archive/tutorial_figure.png?raw=true  "Output Example")
@@ -162,8 +162,11 @@ Example output image from the tutorial markers and genome:
 If you use MapComp in your research, please cite:
 
 Sutherland BJG, Gosselin T, Normandeau E, Lamothe M, Isabel N, Bernatchez L.
-Novel method for comparing RADseq linkage maps reveals chromosome evolution in
-salmonids. bioRxiv. 2016: 1–44. doi:10.1101/039164
+Salmonid Chromosome Evolution as Revealed by a Novel Method for Comparing
+RADseq Linkage Maps. Genome Biol Evol (2016) 8 (12): 3600-3617.
+DOI: https://doi.org/10.1093/gbe/evw262
+
+(preprint version: bioRxiv. 2016: 1–44. doi:10.1101/039164)
 
 ## License
 
