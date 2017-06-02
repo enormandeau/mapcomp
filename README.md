@@ -159,6 +159,7 @@ Example output image from the tutorial markers and genome:
 ![Alt text](00_archive/tutorial_figure.png?raw=true  "Output Example")
 
 ## Citing
+
 If you use MapComp in your research, please cite:
 
 Sutherland BJG, Gosselin T, Normandeau E, Lamothe M, Isabel N, Bernatchez L.
@@ -167,6 +168,10 @@ RADseq Linkage Maps. Genome Biol Evol (2016) 8 (12): 3600-3617.
 DOI: https://doi.org/10.1093/gbe/evw262
 
 (preprint version: bioRxiv. 2016: 1–44. doi:10.1101/039164)
+
+## Troubleshooting
+
+A Google Group for MapComp is available at: https://groups.google.com/forum/#!forum/mapcomp
 
 ## License
 
