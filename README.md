@@ -1,6 +1,6 @@
 # MapComp
 
-A Genetic Map Comparison Pipeline
+Genetic Map Comparison
 
 ## Introduction
 
