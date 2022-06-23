@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """Extract sequences from a fasta file if their name is not in a 'remove' file.
@@ -14,7 +14,7 @@ import re
 try:
     from Bio import SeqIO
 except:
-    print "This program requires the Biopython library"
+    print("This program requires the Biopython library")
     sys.exit(0)
 
 try:
@@ -22,7 +22,7 @@ try:
     remove_file = sys.argv[2] # Input remove file, one gene name per line
     result_file = sys.argv[3] # Output fasta file
 except:
-    print __doc__
+    print(__doc__)
     sys.exit(0)
 
 remove = set()

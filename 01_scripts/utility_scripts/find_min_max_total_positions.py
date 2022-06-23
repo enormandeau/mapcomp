@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Format information about min and max total position for each linkage group
 
 Usage:
@@ -14,7 +14,7 @@ try:
     input_file = sys.argv[1]
     output_file = sys.argv[2]
 except:
-    print __doc__
+    print(__doc__)
     sys.exit(1)
 
 # Create dictionary

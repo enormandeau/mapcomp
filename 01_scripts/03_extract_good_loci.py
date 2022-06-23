@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Subsest sam file to keep wanted loci
 
 Usage:
@@ -16,7 +16,7 @@ if __name__ == '__main__':
         wanted_file = sys.argv[2]
         output_file = sys.argv[3]
     except:
-        print __doc__
+        print(__doc__)
         sys.exit(1)
 
     # Open file handles

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Find pairs of inter-species markers that map to the same target
 
 Usage:
@@ -59,10 +59,10 @@ def get_best_pairs(distance_matrix, max_dist):
     nrow, ncol = distance_matrix.shape
     used_columns = set()
 
-    for row in xrange(nrow):
+    for row in range(nrow):
         row_used = False
 
-        for col in xrange(ncol):
+        for col in range(ncol):
             value = distance_matrix[row, col]
             if value <= max_dist and value == row_minimums[row] and value == col_minimums[col] and col not in used_columns:
 
@@ -91,7 +91,7 @@ if __name__ == '__main__':
         output_file = sys.argv[3]
         max_dist = float(sys.argv[4])
     except:
-        print __doc__
+        print(__doc__)
         sys.exit(1)
 
     # Building set of wanted loci

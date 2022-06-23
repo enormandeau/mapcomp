@@ -23,11 +23,12 @@
 *.xlsx
 *~
 00_archive/*
+02_data/*
 02_data/00_archive/*
-bwa.*
 02_data/num_markers_assigned.txt
 03_mapped/paired_anon_names.txt
 03_mapped/pairings_out.txt
+bwa.*
 
 
 # un-ignore
