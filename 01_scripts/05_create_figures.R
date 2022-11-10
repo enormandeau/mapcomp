@@ -11,7 +11,7 @@ sp1_col=1
 sp2_col=8
 
 # Load data.pairs
-data.pairs = read.table("03_mapped/wanted_loci.info")
+data.pairs = read.table("03_mapped/wanted_loci.info", stringsAsFactors=TRUE)
 data.loci = read.table("02_data/markers.fasta.info")
 
 # Loop over species pairs
